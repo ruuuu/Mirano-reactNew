@@ -99,7 +99,7 @@ export const Order = () => {
 
                 <div className="order__footer">
                     <p className="order__total-price">90000 Р</p> 
-                    <button className="order__button" type="submit" form="order"> Заказать </button>     {/* у атрибута form значение такое же чтои  у form.id, тогда при нажатии на Заказать,форма отправится:*/}
+                    <button className="order__button" type="submit" form="order" onClick={handlerModalClose}> Заказать </button>     {/* у атрибута form значение такое же чтои  у form.id, тогда при нажатии на Заказать,форма отправится:*/}
                 </div>
             </div> 
 
