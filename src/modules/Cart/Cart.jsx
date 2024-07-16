@@ -4,7 +4,7 @@ import { goodsArray } from '../../goodsArray.js';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { toggleCart } from '../../redux/cartSlice.js';
-import { toggleOrder } from '../../redux/orderSlice.js';
+import { openModal } from '../../redux/orderSlice.js';
 
 
 
@@ -28,11 +28,8 @@ export const Cart = () => {
     };
 
 
-    const handlerModalToggle = () => {
-        dispatch(toggleOrder());
-
-       
-
+    const handlerOpenOrder = () => {
+        dispatch(openModal());
     };
 
 
@@ -61,7 +58,7 @@ export const Cart = () => {
                 </ul>
 
                 <div className="cart__footer">
-                    <button className="cart__order-btn" onClick={handlerModalToggle}> Оформить </button>
+                    <button className="cart__order-btn" onClick={handlerOpenOrder}> Оформить </button>
                     <p className="cart__price cart__price--total"> 3000&nbsp;₽ </p>
                 </div>
             </div>

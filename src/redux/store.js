@@ -8,7 +8,7 @@ import orderReducer from './orderSlice.js';
 
 const store = configureStore({
   reducer: {
-    modal: orderReducer, // ДЗ
+    order: orderReducer, 
     cart: cartReducer,   // cart-нзв стейта (initialState в cartSlice.js) которое указали в cartSlice.name
 
 

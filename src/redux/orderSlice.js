@@ -12,13 +12,16 @@ const initialState = {
 
 
 const orderSlice = createSlice({
-  name: 'modal', // нзв стейта сами придумали
+  name: 'order', // нзв стейта сами придумали
   initialState,
   reducers: {  // редьюсер - это фукния которая меняет состояния
     
-    toggleOrder(state, action){   // toggleOrder-редьюсер(action), state =  { isOpenModal: false, }
-      // action.payload -то что передали при вызове редьюсера
-      state.isOpenModal = !state.isOpenModal;
+    openModal(state){   // openModal-редьюсер(action), state =  { isOpenModal: false, }
+      state.isOpenModal = true;
+    },
+
+    closeModal(state){   
+      state.isOpenModal = false;
     },
   }
   
@@ -28,5 +31,5 @@ const orderSlice = createSlice({
 
 
 
-export const { toggleOrder } = orderSlice.actions;  // деструктрироваи в левой части
+export const { openModal, closeModal } = orderSlice.actions;  // деструктрироваи в левой части
 export default orderSlice.reducer;
