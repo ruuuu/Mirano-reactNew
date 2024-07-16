@@ -12,7 +12,7 @@ export const Order = () => {
     const isOrder = false; // если еще не заказали
    
 
-    const isOpenModal = useSelector((state) => {
+    const isOpenModal = useSelector((state) => { 
         return state.modal.isOpenModal;
     });
 
@@ -23,10 +23,13 @@ export const Order = () => {
 
     const dispatch = useDispatch();
 
-    const handlerModalClose = () => {
+    const handlerModalClose = (evt) => {
         dispatch(toggleOrder());
     };
 
+
+
+    
 
 
     if(isOrder){
@@ -37,14 +40,14 @@ export const Order = () => {
                     <p className="order__id">Номер ваего заказа: ea86a02a-2c10-4b48-9f11-c5145ba3e67e </p>
                 </div>
 
-                <button className="order__close" type="button">&times;</button> 
+                <button className="order__close" type="button" onClick={handlerModalClose}>&times;</button> 
             </div>
         ) 
     }
 
 
     return (
-        <div className="order">         {/* style={{  display: 'none', }} */}    
+        <div className="order" onClick={handlerModalClose}>         {/* style={{  display: 'none', }} */}    
             <div className="order__wrapper">    {/* мод окно для заказа:  */}    {/* overlay */}
                 <h2 className="order__title"> Оформить заказ </h2> 
 
@@ -99,11 +102,11 @@ export const Order = () => {
 
                 <div className="order__footer">
                     <p className="order__total-price">90000 Р</p> 
-                    <button className="order__button" type="submit" form="order" onClick={handlerModalClose}> Заказать </button>     {/* у атрибута form значение такое же чтои  у form.id, тогда при нажатии на Заказать,форма отправится:*/}
+                    <button className="order__button" type="submit" form="order"> Заказать </button>     {/* у атрибута form значение такое же чтои  у form.id, тогда при нажатии на Заказать,форма отправится:*/}
                 </div>
             </div> 
 
-            <button className="order__close" type="button" onClick={handlerModalClose}>&times;</button> 
+           <button className="order__close" type="button">&times;</button>   {/*  событие клика делегируется от элемента .order */}
         </div>
     )
 };

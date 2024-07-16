@@ -30,7 +30,12 @@ export const Cart = () => {
 
     const handlerModalToggle = () => {
         dispatch(toggleOrder());
+
+       
+
     };
+
+
 
 
     return (
