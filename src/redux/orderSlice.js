@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createSearchParams } from "react-router-dom";
+
 
 
 // объект хранит нач значения состояний:

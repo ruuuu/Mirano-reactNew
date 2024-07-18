@@ -1,6 +1,5 @@
 import './cart.scss';
 import { CartItem } from '../CartItem/CartItem.jsx';
-import { goodsArray } from '../../goodsArray.js';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { toggleCart } from '../../redux/cartSlice.js';
@@ -11,9 +10,13 @@ import { openModal } from '../../redux/orderSlice.js';
 {/* Компонент  Корзина */}
 export const Cart = () => {  
 
+    const dispatch = useDispatch();
+
     const isOpen = useSelector((state) => {
         return state.cart.isOpen;
     });
+
+    const items = useSelector((state) => state.cart.items);  // список товаров Корзины
 
 
     if(!isOpen){
@@ -21,7 +24,7 @@ export const Cart = () => {
     }
 
 
-    const dispatch = useDispatch();
+    
 
     const handlerCartClose = () => {
         dispatch(toggleCart());
@@ -51,9 +54,9 @@ export const Cart = () => {
                 <p className="cart__date-delivery"> сегодня&nbsp;в&nbsp;14:00 </p>
 
                 <ul className="cart__list">
-                    { goodsArray.map((item) => (  
-                        <CartItem  key={item.id} data={item} />
-                    ))
+                    {   items.map((item) => (  
+                            <CartItem  key={item.id} data={item} />
+                        ))
                     }  
                 </ul>
 

@@ -8,10 +8,11 @@ import { useState } from 'react';
  {/* Компонент  */}
 export const Filter = () => {
 
-    // null(выпадашки закрыты) - нач значение поля openChoice(состояние):
-    const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение isOpenChoice
+    // null(выпадашки закрыты) - нач значение состония openChoice:
+    const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
 
     const handleChoicesToggle = (index) => {
+        // null- закрывает выпадашку:
         setOpenChoice(openChoice === index ? null : index);      // setOpenChoice принимает функцию
     };
 
@@ -35,14 +36,14 @@ export const Filter = () => {
                     </fieldset>
 
                     <fieldset className="filter__group filter__group--choices">
-                        <Choices buttonLabel="Цена" isOpen={openChoice === 0} handleToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это проспы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
+                        <Choices  buttonLabel="Цена"  isOpen={openChoice === 0}  onToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это проспы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
                             <fieldset className="filter__price">
                                 <input className="filter__input-price" type="text" name="minPrice" placeholder="От" />
                                 <input className="filter__input-price" type="text" name="maxPrice" placeholder="До" />
                             </fieldset>
                         </Choices>
 
-                        <Choices buttonLabel="Тип товара" className="filter__choices--type" isOpen={openChoice === 1} handleToggle={() => { handleChoicesToggle(1) }}>  {/* вызываем компонет и  передаем пропсы: buttonLabel  className isOpen handleToggle */}
+                        <Choices  buttonLabel="Тип товара"  className="filter__choices--type"  isOpen={openChoice === 1}  onToggle={() => { handleChoicesToggle(1) }}>  {/* вызываем компонет и  передаем пропсы: buttonLabel  className isOpen handleToggle */}
                             <ul className="filter__type-list">
                                 <li className="filter__type-item">
                                     <button className="filter__type-btn" type="button"> Монобукеты </button>
