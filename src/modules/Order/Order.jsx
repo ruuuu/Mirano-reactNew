@@ -32,7 +32,7 @@ export const Order = () => {
     //     dispatch(closeModal());
     // };
 
-    // лиюо так:
+    // либо так:
     const handlerCloseOrder = (evt) => {
         // evt.target.classList.matches('.order)
        if(evt.target.classList.contains('order') || evt.target.closest('.order__close')){
@@ -41,8 +41,8 @@ export const Order = () => {
     };
 
     return (
-        <div className="order" onClick={handlerCloseOrder}>     {/* style={{  display: 'none', }} */}            
-            <div className="order__wrapper">  
+        <div className="order" onClick={handlerCloseOrder}>     {/* оверлей, style={{  display: 'none', }} */}            
+            <div className="order__wrapper">   {/* сама модалка */}  
                 { isOrder ?
                     <>
                         <h2 className="order__title"> Заказ офорлмен </h2> 
@@ -109,7 +109,7 @@ export const Order = () => {
                 } 
             </div>
 
-            <button className="order__close" type="button">&times;</button>  {/* не вешаем обработчик клика, обработчик от .order передастся сюда(делегирование события) */}  
+            <button className="order__close" type="button">&times;</button>  {   /* не вешаем обработчик клика, обработчик от .order передастся сюда(делегирование события) */}  
         </div>
         ) 
 };
