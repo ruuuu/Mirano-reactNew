@@ -6,7 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // объект хранит нач значения состояний, нзв состояний(свойств) придумываем сами:
 const initialState = {
   isOpen: false,        // корзина закрыта
-  items: JSON.parse(localStorage.getItem('cartItems') || "[]"), // список товаров корзины
+  items: JSON.parse(localStorage.getItem("cartItems") || "[]"), // список товаров корзины [{},{}]
 
 };
 
@@ -24,7 +24,23 @@ const cartSlice = createSlice({
     },
 
     addItemToCart(state, action){   // редьюсер
-      console.log('action', action.payload)     // {id, img, title, price, dateDelivery}
+      const { id, img, title, price, dateDelivery, count = 1 } =  action.payload;  // деструкткрируем объект, count по умолчанию =1
+
+    
+      const existingItem = state.items.find(item => item.id === id);
+      
+      if(existingItem){
+        existingItem.count = count;
+      }
+      else{
+        state.items.push({ id, img, title, price, dateDelivery, count } );
+      }
+
+
+      localStorage.setItem('cartItems', JSON.stringify(state.items));  // обновлем хранилище
+      
+
+
     },
   }
   

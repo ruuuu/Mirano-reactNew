@@ -1,5 +1,10 @@
 # React + Vite
 
+сервер выложен на render.com: 
+https://mirano-api-h7q7.onrender.com/api-docs/#/default/get_api_cart
+
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

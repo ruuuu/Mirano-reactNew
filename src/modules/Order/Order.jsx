@@ -9,7 +9,7 @@ import { closeModal } from '../../redux/orderSlice.js';
  {/*  мод окно заказа: */}
 export const Order = () => {
 
-    const isOrder = false; // если еще не заказали
+    const isOrderReady = false; // если еще заказа нет
    
 
     const isOpenModal = useSelector((state) => { 
@@ -28,13 +28,14 @@ export const Order = () => {
 
     const dispatch = useDispatch();
 
+    //  либо так:
     // const handlerCloseOrder = () => {
     //     dispatch(closeModal());
     // };
 
     // либо так:
     const handlerCloseOrder = (evt) => {
-        // evt.target.classList.matches('.order)
+        // evt.target.classList.matches('.order) либо:
        if(evt.target.classList.contains('order') || evt.target.closest('.order__close')){
             dispatch(closeModal());
        } 
@@ -43,7 +44,7 @@ export const Order = () => {
     return (
         <div className="order" onClick={handlerCloseOrder}>     {/* оверлей, style={{  display: 'none', }} */}            
             <div className="order__wrapper">   {/* сама модалка */}  
-                { isOrder ?
+                { isOrderReady ?
                     <>
                         <h2 className="order__title"> Заказ офорлмен </h2> 
                         <p className="order__id">Номер ваего заказа: ea86a02a-2c10-4b48-9f11-c5145ba3e67e </p>  
