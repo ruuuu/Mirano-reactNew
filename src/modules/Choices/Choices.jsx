@@ -7,7 +7,7 @@ import './choices.scss';
 //                                  созданный стейт(isOpen) можно передать ввиде props
 export const Choices = ( { children, buttonLabel, className, isOpen, onToggle } ) => {  //  children, buttonLabel  это пропсы
   
-  console.log('onToggle ', onToggle )     // () => { handleChoicesToggle(1) }
+  //console.log('onToggle ', onToggle )     // () => { handleChoicesToggle(1) }
 
   return (
       <div className={classNames("choices", className)}>

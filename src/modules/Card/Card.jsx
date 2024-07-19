@@ -3,19 +3,20 @@ import './card.scss';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { addItemToCart } from '../../redux/cartSlice.js';
+import { API_URL } from '../../const.js';
 
 
 
 {/*Компонент card  карточка товара */}
 
-export const Card = ({ className, data: {id, img, title, dateDelivery, price} }) => { // data деструктурировли, первая {} от пропсов
+export const Card = ({ className, data: {id, photoUrl, name, dateDelivery, price} }) => { // data деструктурировли, первая {} от пропсов
 
 
     const dispatch = useDispatch();
 
 
     const handlerAddToCart = () => {
-        dispatch(addItemToCart({ id, img, title, price, dateDelivery }));
+        dispatch(addItemToCart({ id, photoUrl, name, price, dateDelivery }));
     };
 
 
@@ -25,9 +26,9 @@ export const Card = ({ className, data: {id, img, title, dateDelivery, price} })
     return (
         //                 либо  `${className} card`
         <article className={classNames(className, "card")}>   {/* если передали  className, то вставит */} 
-            <img className="card__image" src={img} alt={title} />
+            <img className="card__image" src={`${API_URL}${photoUrl}`} alt={name} />
             <div className="card__content">
-                <h3 className="card__title"> {title} </h3>
+                <h3 className="card__title"> {name} </h3>
                 <div className="card__footer">
                     <p className="card__date-delivery"> {dateDelivery} </p>
                     <button className="card__button" onClick={handlerAddToCart}> {price}&nbsp;₽

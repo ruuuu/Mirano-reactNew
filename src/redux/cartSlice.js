@@ -24,7 +24,7 @@ const cartSlice = createSlice({
     },
 
     addItemToCart(state, action){   // редьюсер
-      const { id, img, title, price, dateDelivery, count = 1 } =  action.payload;  // деструкткрируем объект, count по умолчанию =1
+      const { id, img, title, price, dateDelivery, count = 1 } = action.payload;  // деструкткрируем объект, count по умолчанию =1
 
     
       const existingItem = state.items.find(item => item.id === id);

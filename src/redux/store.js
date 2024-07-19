@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from './cartSlice.js';     // нзв cartReducer придумали сами, это и есть cartSlice.reducer
 import orderReducer from './orderSlice.js';
+import goodsReducer from './goodsSlice.js';
+
 
 
 
@@ -10,7 +12,7 @@ const store = configureStore({
   reducer: {
     order: orderReducer, 
     cart: cartReducer,   // cart-нзв стейта (initialState в cartSlice.js) которое указали в cartSlice.name
-
+    goods: goodsReducer,
 
   }
 });
