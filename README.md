@@ -1,6 +1,6 @@
 # React + Vite
 
-сервер выложен на render.com: 
+сервер выложен на хостинг render.com: 
 https://mirano-api-h7q7.onrender.com/api-docs/#/default/get_api_cart
 
 
