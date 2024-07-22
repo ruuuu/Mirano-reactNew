@@ -24,8 +24,8 @@ const cartSlice = createSlice({
     },
 
     addItemToCart(state, action){   // редьюсер
-      const { id, img, title, price, dateDelivery, count = 1 } = action.payload;  // деструкткрируем объект, count по умолчанию =1
-
+      const { id, photoUrl, name, price, dateDelivery, count = 1 } = action.payload;  // деструкткрируем объект, count по умолчанию =1
+      console.log('action.payload ', action.payload)
     
       const existingItem = state.items.find(item => item.id === id);
       
@@ -33,14 +33,11 @@ const cartSlice = createSlice({
         existingItem.count = count;
       }
       else{
-        state.items.push({ id, img, title, price, dateDelivery, count } );
+        state.items.push({ id, photoUrl, name, price, dateDelivery, count });
       }
 
 
       localStorage.setItem('cartItems', JSON.stringify(state.items));  // обновлем хранилище
-      
-
-
     },
   }
   

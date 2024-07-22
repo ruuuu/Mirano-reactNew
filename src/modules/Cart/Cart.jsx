@@ -18,7 +18,6 @@ export const Cart = () => {
 
     const items = useSelector((state) => state.cart.items);  // список товаров Корзины
 
-
     if(!isOpen){
         return null;
     }
@@ -54,7 +53,7 @@ export const Cart = () => {
                 <p className="cart__date-delivery"> сегодня&nbsp;в&nbsp;14:00 </p>
 
                 <ul className="cart__list">
-                    {   items.map((item) => (  
+                    {  items.map((item) => (  
                             <CartItem  key={item.id} data={item} />
                         ))
                     }  
