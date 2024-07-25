@@ -6,7 +6,7 @@ import { API_URL } from "../const.js";
 // асинхронная функия, сама создает action и их вызывает и их отправляет в dispatch:
 export const fetchGoods = createAsyncThunk('goods/fetchGoods',  async (params) => {  // нзв 'goods/fetchGoods' придумали сами
       
-      const queryString = new URLSearchParams(params).toString();  // params = {type: bouquets, minPrice: '340', maxPrice: '500', category: '["Монобукеты", "WoW Эффект", "Авторские букеты", "Букеты из сухоцветов", "Цветы в корзине", "Цветы в коробке"]' }
+      const queryString = new URLSearchParams(params).toString();  // params = { type: bouquets, minPrice: '340', maxPrice: '500', category: '["Монобукеты", "WoW Эффект", "Авторские букеты", "Букеты из сухоцветов", "Цветы в корзине", "Цветы в коробке"]' }
       console.log('queryString ', queryString);
 
       const response = await fetch(`${API_URL}/api/products${queryString ? `?${queryString}` : ''}`);    // /api/products?type=bouquets toys postcards

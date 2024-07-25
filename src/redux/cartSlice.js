@@ -23,7 +23,7 @@ const cartSlice = createSlice({
       state.isOpen = !state.isOpen;
     },
 
-    addItemToCart(state, action){   // редьюсер
+    addItemToCart(state, action){   // редьюсер, добавление тоара в Коризну
       const { id, photoUrl, name, price, dateDelivery, count = 1 } = action.payload;  // деструкткрируем объект, count по умолчанию =1
       console.log('action.payload ', action.payload)
     

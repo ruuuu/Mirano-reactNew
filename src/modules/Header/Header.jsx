@@ -13,13 +13,12 @@ export const Header = () => {
 
     const dispatch = useDispatch(); // сообщает что нужно произвести опр действия
 
-   
-
     const handlerCartToggle = () => {
         dispatch(toggleCart());
     };
 
 
+    
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины
 
     return (
@@ -37,7 +36,7 @@ export const Header = () => {
 
                 <img className="header__logo" width="200" height="65" src="/img/logo.svg" alt="Логотип магазина букетов Mirano" />  {/*  отсчет от папки public:  */}
                                                 {/* () => { dispatch(toggleCart) } */}
-                <button className="header__cart-btn" onClick={handlerCartToggle}> {itemsCart.length} </button>
+                <button className="header__cart-btn" onClick={handlerCartToggle}> { itemsCart.length } </button>
             </div>
         </header>
     )

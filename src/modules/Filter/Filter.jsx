@@ -8,7 +8,7 @@ import { useState } from 'react';
  {/* Компонент  */}
 export const Filter = () => {
 
-    // null(выпадашки закрыты) - нач значение состония openChoice:
+    // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
 
     const handleChoicesToggle = (index) => {
@@ -36,7 +36,7 @@ export const Filter = () => {
                     </fieldset>
 
                     <fieldset className="filter__group filter__group--choices">
-                        <Choices  buttonLabel="Цена"  isOpen={openChoice === 0}  onToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это проспы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
+                        <Choices  buttonLabel="Цена"  isOpen={openChoice === 0}  onToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это пропсы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
                             <fieldset className="filter__price">
                                 <input className="filter__input-price" type="text" name="minPrice" placeholder="От" />
                                 <input className="filter__input-price" type="text" name="maxPrice" placeholder="До" />

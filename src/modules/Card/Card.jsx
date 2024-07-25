@@ -21,7 +21,8 @@ export const Card = ({ className, id, photoUrl, name, dateDelivery, price }) => 
 
 
     
-    const [hidden, setHidden] = useState(true);
+    const [hidden, setHidden] = useState(true); // hidden- завели перменную стейта 
+
 
     return (
         //                 либо  `${className} card`
@@ -31,8 +32,9 @@ export const Card = ({ className, id, photoUrl, name, dateDelivery, price }) => 
                 <h3 className="card__title"> {name} </h3>
                 <div className="card__footer">
                     <p className="card__date-delivery"> {dateDelivery} </p>
-                    <button className="card__button" onClick={handlerAddToCart} onMouseEnter={() => setHidden(false)} onMouseLeave={() => setHidden(true)}> 
-                        {hidden ?  <span className="card__price"> {price}&nbsp;₽ </span> : <span className="card__button-text" onClick={handlerAddToCart}> В &nbsp;корзину </span>}
+                     {/* onMouseEnter-наведение мыши */} 
+                    <button className="card__button" onClick={handlerAddToCart}  onMouseEnter={() => setHidden(false)}  onMouseLeave={() => setHidden(true)}> 
+                        { hidden ?  <span className="card__price"> {price}&nbsp;₽ </span> : <span className="card__button-text"  onClick={handlerAddToCart}> В &nbsp;корзину </span> }
                     </button>
                 </div>
             </div>
