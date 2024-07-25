@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { toggleCart } from '../../redux/cartSlice.js';
 import { openModal } from '../../redux/orderSlice.js';
+import { useEffect, useRef } from 'react';
 
 
 
@@ -16,15 +17,22 @@ export const Cart = () => {
         return state.cart.isOpen;
     });
 
-    const items = useSelector((state) => state.cart.items);  // список товаров Корзины
-
     if(!isOpen){
         return null;
     }
 
+    const cartRef = useRef(null); // хук, нужен для скролла к элементу
 
-    
+    useEffect(() => {
+        if(isOpen){
+            cartRef.current.scrollIntoView({ behavior: 'smooth' }); // скролл к cartRef.current(корзина)
+        }
+    }, [ isOpen ]);  // при каждом изменении isOpen бдет вызываьс переданная функция
 
+
+    const items = useSelector((state) => state.cart.items);  // список товаров Корзины
+
+   
     const handlerCartClose = () => {
         dispatch(toggleCart());
     };
@@ -38,7 +46,7 @@ export const Cart = () => {
 
 
     return (
-        <section className="cart cart--open"> 
+        <section className="cart cart--open" ref={cartRef}>  {/* скролл к этому лементу */}
             <div class="cart__container">
                 <div className="cart__header">
                     <h3 className="cart__title"> Ваш заказ </h3>

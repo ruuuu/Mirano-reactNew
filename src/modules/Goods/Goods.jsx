@@ -1,4 +1,3 @@
-//import { goodsArray } from "../../goodsArray";
 import { Card } from "../Card/Card";
 import { Cart } from "../Cart/Cart";
 import { useDispatch } from 'react-redux';
@@ -23,13 +22,7 @@ export const Goods = () => {
        // dispatch(fetchGoods())
     //}
 
-    useEffect(() => {
-
-        if(goodsStatus === 'idle'){ // если запрос еще не отправляли
-            dispatch(fetchGoods());  // отпрвка запроса на сервер
-        }
-    }, [ dispatch, goodsStatus ]);  // если передаваемый массив пустой, то вызовется коллбэк 1 раз. Если передли еще что то(напрмиер  goodsStatus),  то при каждой смене goodsStatus будет вызываться коллбэк
-
+   
 
     let content = null;
 
