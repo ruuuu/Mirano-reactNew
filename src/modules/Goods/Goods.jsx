@@ -16,7 +16,7 @@ export const Goods = () => {
     // хук вернет объект state, его дестуктурируем, items переимновали в goods, status переименовали в goodsStatus:
     const { items: goods, status: goodsStatus, error } = useSelector((state) => state.goods);   // [{}, {},{}]-товары с сервера
     
-    const dispatch = useDispatch();     
+    
 
     // if(goodsStatus){ // так нельзя делать иначе при каждой смене статуса будет отправка запроса(большая нагрузка на сервер), поэтому используем хук useEffect
        // dispatch(fetchGoods())

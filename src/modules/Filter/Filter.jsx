@@ -1,6 +1,10 @@
 import { Choices } from '../Choices/Choices.jsx';
 import './filter.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchGoods } from '../../redux/goodsSlice.js';
+import { useSelector } from 'react-redux';
+import { getValidFilters } from '../../utils.js';
 
 
 
@@ -11,12 +15,41 @@ export const Filter = () => {
     // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
 
+    const dispatch = useDispatch();    
+
+    //const { status: goodsStatus, error } = useSelector((state) => state.goods); 
+
+
     const handleChoicesToggle = (index) => {
         // null- закрывает выпадашку:
         setOpenChoice(openChoice === index ? null : index);      // setOpenChoice принимает функцию
     };
 
+
+    const [ filters, setFilters ] = useState({  // завели перменную  состояния filters(объект)
+        type: "bouquets",
+        minPrice: "", 
+        maxPrice: "",
+        category: ""
+    });
+
+
+    const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
+
+        const value = evt.target.value;  
+        const newFilters = {...filters, type: value}        // у filters заменили значение свойства type type:value
+
+        setFilters(newFilters); // обновили значение перем состояния filters
+    };
  
+
+    useEffect(() => {
+        const validFilters = getValidFilters(filters);
+       // console.log('validFilters ', validFilters)
+        dispatch(fetchGoods(validFilters));
+    }, [ dispatch, filters ]);  // если передаваемый массив пустой, то вызовется коллбэк 1 раз. Если передали еще что то(напрмиер  filters),  то при каждой смене filters будет вызываться коллбэк
+    
+
 
     return (
         <section className="filter">
@@ -25,13 +58,13 @@ export const Filter = () => {
             <div className="container">
                 <form className="filter__form">
                     <fieldset className="filter__group">
-                        <input className="filter__radio" type="radio" name="type" id="bouquets" value="bouquets" defaultChecked />
+                        <input className="filter__radio" type="radio" name="type" id="bouquets" value="bouquets"  checked={filters.type === "bouquets"}  onChange={ handleTypeChange } /> {/*  defaultChecked */}
                         <label className="filter__label filter__label--flower" htmlFor="bouquets"> Цветы </label>   {/* вместо for в реакте пишем htmlFor: */}
 
-                        <input className="filter__radio" type="radio" name="type" id="toys" value="toys" />
+                        <input className="filter__radio" type="radio" name="type" id="toys" value="toys"  checked={filters.type === "toys"}  onChange={ handleTypeChange } />
                         <label className="filter__label filter__label--toy" htmlFor="toys"> Игрушки </label>
 
-                        <input className="filter__radio" type="radio" name="type" id="postcards" value="postcards" />
+                        <input className="filter__radio" type="radio" name="type" id="postcards" value="postcards"  checked={filters.type === "postcards"}  onChange={ handleTypeChange }  />
                         <label className="filter__label filter__label--card" htmlFor="postcards"> Открытки </label>
                     </fieldset>
 

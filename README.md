@@ -2,7 +2,7 @@
 
 сервер выложен на хостинг render.com: 
 свагер:
-https://mirano-api-h7q7.onrender.com/api-docs/#/default/get_api_cart
+https://mirano-api-h7q7.onrender.com/api-docs/
 
 
 
