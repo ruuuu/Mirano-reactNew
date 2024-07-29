@@ -14,3 +14,35 @@ export const getValidFilters = (filters) => {     // filters= { type: "bouquets"
   return validFilters ;
 };
 
+
+
+export const debounce = (fn, msec) => {  // debounce функия высшго порядка,  функция обертка, msec -задержка
+
+  let lastCall = 0;
+  let lastCallTimer = 0;
+
+  return (...arg) => {  // ...arg- принмиает все аргументы
+    
+    const prevCall = lastCall;
+    lastCall = Date.now();
+
+    if(prevCall && lastCall - prevCall <= msec){ // пока число msec не пройдет межд соседними вызовами fn(...arg) не вызовется 
+      clearTimeout(lastCallTimer); // сброс lastCallTimer)
+    }
+
+
+    lastCallTimer = setTimeout(() => { // переданный колбэк вызовется через msec
+      fn(...arg);
+    }, msec);
+  };  
+
+
+};
+
+// пример использования debounce:
+// const sum = (a, b) => (console.log(a + b));
+
+// const sumDebounce = debounce(sum, 3000);
+
+// sumDebounce(4, 6);
+// sumDebounce(8, 16);

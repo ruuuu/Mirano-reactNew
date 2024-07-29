@@ -39,9 +39,10 @@ export const Filter = () => {
     const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
 //      { value } = target  
         const value = evt.target.value;  
-        const newFilters = {...filters, type: value}        // у filters заменили значение свойства type type:value
+        const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
 
         setFilters(newFilters); // обновили значение перем состояния filters
+        setOpenChoice(null);
     };
 
 
@@ -54,7 +55,7 @@ export const Filter = () => {
         const value = evt.target.value; 
         const name = evt.target.name;   
         
-        const newFilters = { ...filters, [name]: value ? parseInt(value) : ''};        // у filters заменили значение 
+        const newFilters = { ...filters, [name]: value ? parseInt(value) : '' };        // у filters заменили значение 
         
         console.log('newFilters in handlePriceChange ', newFilters);                    // { type: 'bouquets', minPrice: 2, maxPrice: '', category: '' }
         setFilters(newFilters); // обновили значение перем состояния filters
