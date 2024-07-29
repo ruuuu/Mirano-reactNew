@@ -5,7 +5,7 @@ export const getValidFilters = (filters) => {     // filters= { type: "bouquets"
   const validFilters = {};
 
 
-  for (const key in filters) {
+  for (const key in filters) { // перебирвем объект
       if(filters[key]){  // если не пустая строка
         validFilters[key] = filters[key];
       }

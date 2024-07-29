@@ -34,13 +34,32 @@ export const Filter = () => {
     });
 
 
-    const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
 
+//                          { target }
+    const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
+//      { value } = target  
         const value = evt.target.value;  
         const newFilters = {...filters, type: value}        // у filters заменили значение свойства type type:value
 
         setFilters(newFilters); // обновили значение перем состояния filters
     };
+
+
+
+//                          { target }
+    const handlePriceChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value, name } = target
+        
+        console.log('evt.target in handlePriceChange ', evt.target);
+//      { value, name } = target
+        const value = evt.target.value; 
+        const name = evt.target.name;   
+        
+        const newFilters = { ...filters, [name]: value ? parseInt(value) : ''};        // у filters заменили значение 
+        
+        console.log('newFilters in handlePriceChange ', newFilters);                    // { type: 'bouquets', minPrice: 2, maxPrice: '', category: '' }
+        setFilters(newFilters); // обновили значение перем состояния filters
+    };
+ 
  
 
     useEffect(() => {
@@ -71,8 +90,8 @@ export const Filter = () => {
                     <fieldset className="filter__group filter__group--choices">
                         <Choices  buttonLabel="Цена"  isOpen={openChoice === 0}  onToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это пропсы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
                             <fieldset className="filter__price">
-                                <input className="filter__input-price" type="text" name="minPrice" placeholder="От" />
-                                <input className="filter__input-price" type="text" name="maxPrice" placeholder="До" />
+                                <input className="filter__input-price" type="text" name="minPrice" placeholder="От" value={filters.minPrice}  onChange={ handlePriceChange }  />
+                                <input className="filter__input-price" type="text" name="maxPrice" placeholder="До"  value={filters.maxPrice}  onChange={ handlePriceChange }  />
                             </fieldset>
                         </Choices>
 
