@@ -1,4 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { API_URL } from "../const.js";
+
+
+export const registerCart = createAsyncThunk('cart/registerCart', async() => {
+
+  const response = fetch(`${API_URL}/api/cart/register`, {
+    method: 'POST', 
+    credentials: 'include' // куки вклбчены
+
+  });
+
+  return await response.json();
+});
+
 
 
 
@@ -7,7 +21,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isOpen: false,        // корзина закрыта
   items: JSON.parse(localStorage.getItem("cartItems") || "[]"), // список товаров корзины [{},{}]
-
+  status: 'idle',
+  accessKey: null,
+  error: null
 };
 
 
@@ -36,9 +52,22 @@ const cartSlice = createSlice({
         state.items.push({ id, photoUrl, name, price, dateDelivery, count });
       }
 
-
       localStorage.setItem('cartItems', JSON.stringify(state.items));  // обновлем хранилище
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(registerCart.pending, (state) => {
+      state.status = 'loading';  // loading сами придумали, ждем ответа от сервера
+    })
+    builder.addCase(registerCart.fulfilled, (state, action) => {
+      state.status = 'success';  // success сами придумали, сервер ответил
+      state.accessKey = action.payload.accessKey; // в action.payload будет то, что сервер отдаст
+    })
+    builder.addCase(registerCart.rejected, (state, action) => {
+      state.status = 'failed';  // ошибка при запросе сервера
+      state.accessKey = '';
+      state.error = action.error.message;
+    });
   }
   
 

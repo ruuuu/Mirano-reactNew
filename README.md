@@ -4,6 +4,7 @@
 свагер:
 https://mirano-api-h7q7.onrender.com/api-docs/
 
+github.com/Quper24/mirano-api
 
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
