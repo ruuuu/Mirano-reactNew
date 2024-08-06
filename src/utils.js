@@ -16,6 +16,7 @@ export const getValidFilters = (filters) => {     // filters= { type: "bouquets"
 
 
 
+// fn вызывается через каждые 5 сек
 export const debounce = (fn, msec) => {  // debounce функия высшго порядка,  функция обертка, msec -задержка
 
   let lastCall = 0;
@@ -27,7 +28,7 @@ export const debounce = (fn, msec) => {  // debounce функия высшго �
     lastCall = Date.now();
 
     if(prevCall && lastCall - prevCall <= msec){ // пока число msec не пройдет межд соседними вызовами fn(...arg) не вызовется 
-      clearTimeout(lastCallTimer); // сброс lastCallTimer)
+      clearTimeout(lastCallTimer); // сброс lastCallTimer -предыдущий вызов
     }
 
 

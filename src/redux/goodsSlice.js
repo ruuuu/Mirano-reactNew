@@ -45,7 +45,7 @@ const goodsSlice = createSlice({
       state.status = 'succeeded';  // succeeded сами придумали, сервер ответил
       state.items = action.payload; // в action.payload будет то, что сервер отдаст
     })
-    builder.addCase(fetchGoods.rejected, (state) => {
+    builder.addCase(fetchGoods.rejected, (state, action) => {
       state.status = 'failed';  // ошибка при запросе сервера
       state.error = action.error.message;
     });

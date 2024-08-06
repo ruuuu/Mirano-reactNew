@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchGoods } from '../../redux/goodsSlice.js';
 import { useSelector } from 'react-redux';
-import { getValidFilters } from '../../utils.js';
-
+import { debounce, getValidFilters } from '../../utils.js';
+import { useRef } from 'react';
 
 
 
@@ -17,8 +17,7 @@ export const Filter = () => {
 
     const dispatch = useDispatch();    
 
-    //const { status: goodsStatus, error } = useSelector((state) => state.goods); 
-
+    
 
     const handleChoicesToggle = (index) => {
         // null- закрывает выпадашку:
@@ -26,13 +25,48 @@ export const Filter = () => {
     };
 
 
-    const [ filters, setFilters ] = useState({  // завели перменную  состояния filters(объект)
+    const [ filters, setFilters ] = useState({      // завели перменную  состояния filters(объект)
         type: "bouquets",
         minPrice: "", 
         maxPrice: "",
         category: ""
     });
 
+
+    const prevFiltersRef = useRef(filters);             // сохранили текущее состояние filters (даже если в useState значения filters поменяется, тек состояние не изменится )
+    console.log('prevFiltersRef.current ', prevFiltersRef.current);    // {type: 'toys', minPrice: '', maxPrice: '', category: ''}
+    
+    
+
+
+    const debounceFetchGoods = useRef(             // хук useRef, когда будет происходить перерендер, фукнуия не будет обновляться
+        
+        debounce((filters) => {
+            dispatch(fetchGoods(filters));
+        }, 1000),
+    ).current;
+ 
+ 
+
+    useEffect(() => {
+
+        console.log('работает useEffect')
+        const prevFilters = prevFiltersRef.current;
+        const validFilters = getValidFilters(filters);
+
+        if(prevFilters.type !== filters.type) {    // сравнение предыдущего и текущего фильтра(если сменили Тип)
+            dispatch(fetchGoods(validFilters));
+            console.log('типы, вызывался fetchGoods(validFilters) и validFilters ', validFilters )
+        } 
+        else{
+            debounceFetchGoods(filters);
+            console.log('прайсы, вызывался debounceFetchGoods(filters) и filters ', filters)
+        } 
+
+        prevFiltersRef.current = filters;  // обновляем текущий фильтр
+
+    }, [ debounceFetchGoods, filters ]);  // если передаваемый массив пустой, то вызовется коллбэк 1 раз. Если передали еще что то(напрмиер  filters),  то при каждой смене filters будет вызываться коллбэк
+    
 
 
 //                          { target }
@@ -50,25 +84,20 @@ export const Filter = () => {
 //                          { target }
     const handlePriceChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value, name } = target
         
-        console.log('evt.target in handlePriceChange ', evt.target);
-//      { value, name } = target
+        //console.log('evt.target in handlePriceChange ', evt.target);
+        // { value, name } = target
         const value = evt.target.value; 
         const name = evt.target.name;   
         
-        const newFilters = { ...filters, [name]: value ? parseInt(value) : '' };        // у filters заменили значение 
+        const newFilters = { ...filters, [name]: !isNaN(parseInt(value)) ? value : '' };        // у filters заменили значение 
         
-        console.log('newFilters in handlePriceChange ', newFilters);                    // { type: 'bouquets', minPrice: 2, maxPrice: '', category: '' }
+        //console.log('newFilters in handlePriceChange ', newFilters);                    // { type: 'bouquets', minPrice: 2, maxPrice: '', category: '' }
         setFilters(newFilters); // обновили значение перем состояния filters
     };
- 
- 
 
-    useEffect(() => {
-        const validFilters = getValidFilters(filters);
-       // console.log('validFilters ', validFilters)
-        dispatch(fetchGoods(validFilters));
-    }, [ dispatch, filters ]);  // если передаваемый массив пустой, то вызовется коллбэк 1 раз. Если передали еще что то(напрмиер  filters),  то при каждой смене filters будет вызываться коллбэк
-    
+
+
+   
 
 
     return (
