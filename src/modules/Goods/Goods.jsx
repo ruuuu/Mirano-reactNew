@@ -6,12 +6,12 @@ import './goods.scss';
 import { fetchGoods } from "../../redux/goodsSlice.js";
 import { useEffect } from "react";
 import { API_URL } from "../../const.js";
-
+import { useState } from "react";
 
 
 
 {/* Компонент Goods - список товаров */}
-export const Goods = () => {
+export const Goods = ({ title }) => {
 
     // хук вернет объект state, его дестуктурируем, items переимновали в goods, status переименовали в goodsStatus:
     const { items: goods, status: goodsStatus, error } = useSelector((state) => state.goods);   // [{}, {},{}]-товары с сервера
@@ -31,7 +31,7 @@ export const Goods = () => {
     }
 
     if(goodsStatus === 'succeeded'){
-        content =  <ul className="goods__list">
+        content =   <ul className="goods__list">
                         {  goods.map((item) => (   
                             <li className="goods__item" key={item.id}>          { /* без атрибута key(props) будет ругаться */}
                                                             { /* data={item}  */}
@@ -47,11 +47,13 @@ export const Goods = () => {
     }
 
 
+
+
     return (
         <section className="goods">  
             <div className="container goods__container">
                 <div className="goods__box">
-                    <h3 className="goods__title"> Цветы </h3>
+                    <h3 className="goods__title"> {title} </h3>
                     {content}
                 </div>
 

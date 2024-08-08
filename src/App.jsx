@@ -6,9 +6,9 @@ import { Hero } from "./modules/Hero/Hero";
 import { Subscribe } from "./modules/Subscribe/Subscribe";
 import { Order } from "./modules/Order/Order.jsx";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerCart } from "./redux/cartSlice.js";
-
+import { useState } from "react";
 
 
 
@@ -16,16 +16,24 @@ export const App = () => {
 
     const dispatch = useDispatch();
 
+    //заводим перем состония
+    const [ titleGoods, setTitleGoods ] = useState("Букеты");
+
+
     useEffect(() => {
 
         const initializeCart = async () => {
             await dispatch(registerCart());
-        // await фукния я получения данных
+        // await фукния яполучения данных из корзины
         };
 
         initializeCart();
         
     }, [ dispatch ]);
+
+
+
+
 
     return (
     //пустые <> </>  это React.Fragment, можно не писать  его и отсавить пустыми <></>
@@ -35,9 +43,9 @@ export const App = () => {
         <main>
             <Hero />
 
-            <Filter />
+            <Filter setTitleGoods={setTitleGoods} />   {/* передем фукнцию  */}
 
-            <Goods /> 
+            <Goods title={titleGoods} /> 
 
             <Subscribe />
         </main> 

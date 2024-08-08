@@ -3,14 +3,23 @@ import './filter.scss';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchGoods } from '../../redux/goodsSlice.js';
-import { useSelector } from 'react-redux';
 import { debounce, getValidFilters } from '../../utils.js';
 import { useRef } from 'react';
+import { FilterRadio } from './FilterRadio.jsx';
+
+
+
+const filterTypes = [
+    { value: 'bouquets', title: 'Букеты' },
+    { value: 'toys', title: 'Игрушки' },
+    { value: 'postcards', title: 'Открытки' },
+];
+
 
 
 
  {/* Компонент  */}
-export const Filter = () => {
+export const Filter = ({ setTitleGoods }) => {
 
     // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
@@ -59,7 +68,7 @@ export const Filter = () => {
             console.log('типы, вызывался fetchGoods(validFilters) и validFilters ', validFilters )
         } 
         else{
-            debounceFetchGoods(filters);
+            debounceFetchGoods(validFilters);
             console.log('прайсы, вызывался debounceFetchGoods(filters) и filters ', filters)
         } 
 
@@ -76,8 +85,12 @@ export const Filter = () => {
         const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
 
         setFilters(newFilters); // обновили значение перем состояния filters
-        setOpenChoice(null);
-    };
+        setOpenChoice(-1);  // закрываем все фильтры
+        const itemFilter = filterTypes.find((item) => item.value === value)
+        setTitleGoods(itemFilter.title);
+    }
+        
+    
 
 
 
@@ -107,14 +120,10 @@ export const Filter = () => {
             <div className="container">
                 <form className="filter__form">
                     <fieldset className="filter__group">
-                        <input className="filter__radio" type="radio" name="type" id="bouquets" value="bouquets"  checked={filters.type === "bouquets"}  onChange={ handleTypeChange } /> {/*  defaultChecked */}
-                        <label className="filter__label filter__label--flower" htmlFor="bouquets"> Цветы </label>   {/* вместо for в реакте пишем htmlFor: */}
-
-                        <input className="filter__radio" type="radio" name="type" id="toys" value="toys"  checked={filters.type === "toys"}  onChange={ handleTypeChange } />
-                        <label className="filter__label filter__label--toy" htmlFor="toys"> Игрушки </label>
-
-                        <input className="filter__radio" type="radio" name="type" id="postcards" value="postcards"  checked={filters.type === "postcards"}  onChange={ handleTypeChange }  />
-                        <label className="filter__label filter__label--card" htmlFor="postcards"> Открытки </label>
+                        {   filterTypes.map((item)=> (    //       вернет массив коммопнентов <FilterRadio/>: 
+                                <FilterRadio  key={item.value} handleTypeChange={ handleTypeChange } data={item} type={filters.type}  />
+                            ))
+                        }
                     </fieldset>
 
                     <fieldset className="filter__group filter__group--choices">

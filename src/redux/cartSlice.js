@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_URL } from "../const.js";
 
-
+//Регитрация
 export const registerCart = createAsyncThunk('cart/registerCart', async() => {
 
   const response = fetch(`${API_URL}/api/cart/register`, {

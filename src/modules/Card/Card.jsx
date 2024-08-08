@@ -6,6 +6,8 @@ import { API_URL } from '../../const.js';
 import { useState } from "react";
 
 
+
+
 {/*Компонент card  карточка товара */}
 
 export const Card = ({ className, id, photoUrl, name, dateDelivery, price }) => { // data деструктурировли, первая {} от пропсов
@@ -15,12 +17,12 @@ export const Card = ({ className, id, photoUrl, name, dateDelivery, price }) => 
 
 
     const handlerAddToCart = () => {
-        dispatch(addItemToCart({ id, photoUrl, name, price, dateDelivery }));
+        dispatch(addItemToCart({ id, photoUrl, name, price, dateDelivery })); // добаивли товар в корзину
     };
 
 
     
-    const [hidden, setHidden] = useState(true); // hidden- завели перменную стейта 
+    const [ hidden, setHidden ] = useState(true); // hidden- завели перменную стейта 
 
 
     return (
@@ -32,7 +34,7 @@ export const Card = ({ className, id, photoUrl, name, dateDelivery, price }) => 
                 <div className="card__footer">
                     <p className="card__date-delivery"> {dateDelivery} </p>
                      {/* onMouseEnter-наведение мыши */} 
-                    <button className="card__button" onClick={handlerAddToCart}  onMouseEnter={() => setHidden(false)}  onMouseLeave={() => setHidden(true)}> 
+                    <button className="card__button" onClick={handlerAddToCart}  onMouseEnter={() => setHidden(false)}  onMouseLeave={() => setHidden(true)}  > 
                         { hidden ?  <span className="card__price"> {price}&nbsp;₽ </span> : <span className="card__button-text"  onClick={handlerAddToCart}> В &nbsp;корзину </span> }
                     </button>
                 </div>
