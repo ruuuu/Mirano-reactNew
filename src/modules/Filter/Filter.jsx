@@ -6,6 +6,9 @@ import { fetchGoods } from '../../redux/goodsSlice.js';
 import { debounce, getValidFilters } from '../../utils.js';
 import { useRef } from 'react';
 import { FilterRadio } from './FilterRadio.jsx';
+import { useSelector } from 'react-redux';
+import { changePrice, changeType } from '../../redux/filtersSlice.js';
+
 
 
 
@@ -26,7 +29,9 @@ export const Filter = ({ setTitleGoods }) => {
 
     const dispatch = useDispatch();    
 
-    
+    const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category}
+    console.log('filters from state ', filters)
+
 
     const handleChoicesToggle = (index) => {
         // null- закрывает выпадашку:
@@ -34,15 +39,9 @@ export const Filter = ({ setTitleGoods }) => {
     };
 
 
-    const [ filters, setFilters ] = useState({      // завели перменную  состояния filters(объект)
-        type: "bouquets",
-        minPrice: "", 
-        maxPrice: "",
-        category: ""
-    });
 
 
-    const prevFiltersRef = useRef(filters);             // сохранили текущее состояние filters (даже если в useState значения filters поменяется, тек состояние не изменится )
+    const prevFiltersRef = useRef(filters);             // сохранили текущее состояние filters (даже если в useState(setFilters(filters)) значения filters поменяется, тек состояние не изменится )
     console.log('prevFiltersRef.current ', prevFiltersRef.current);    // {type: 'toys', minPrice: '', maxPrice: '', category: ''}
     
     
@@ -78,34 +77,35 @@ export const Filter = ({ setTitleGoods }) => {
     
 
 
-//                          { target }
-    const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
-//      { value } = target  
-        const value = evt.target.value;  
-        const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
 
-        setFilters(newFilters); // обновили значение перем состояния filters
+
+    //фильтр по смене типа  { target }
+    const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
+        //  { value } = target  
+        const value = evt.target.value;  
+        // const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
+        dispatch(changeType(value)); // редьюсер вызвали, обновили значение перем состояния filters
         setOpenChoice(-1);  // закрываем все фильтры
         const itemFilter = filterTypes.find((item) => item.value === value)
         setTitleGoods(itemFilter.title);
-    }
+    };
         
     
 
 
 
-//                          { target }
+    // филтр по смене цены   { target }
     const handlePriceChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value, name } = target
         
         //console.log('evt.target in handlePriceChange ', evt.target);
         // { value, name } = target
         const value = evt.target.value; 
-        const name = evt.target.name;   
+        const name = evt.target.name;  // name = minPrice  или maxPrice 
         
-        const newFilters = { ...filters, [name]: !isNaN(parseInt(value)) ? value : '' };        // у filters заменили значение 
+        //const newFilters = { ...filters, [name]: !isNaN(parseInt(value)) ? value : '' };        // у filters заменили значение 
         
         //console.log('newFilters in handlePriceChange ', newFilters);                    // { type: 'bouquets', minPrice: 2, maxPrice: '', category: '' }
-        setFilters(newFilters); // обновили значение перем состояния filters
+        dispatch(changePrice({ name, value })); //  редьюсер вызвали, обновили значение перем состояния filters
     };
 
 
@@ -121,7 +121,7 @@ export const Filter = ({ setTitleGoods }) => {
                 <form className="filter__form">
                     <fieldset className="filter__group">
                         {   filterTypes.map((item)=> (    //       вернет массив коммопнентов <FilterRadio/>: 
-                                <FilterRadio  key={item.value} handleTypeChange={ handleTypeChange } data={item} type={filters.type}  />
+                                <FilterRadio key={item.value} handleTypeChange={ handleTypeChange } data={item} type={filters.type}  />
                             ))
                         }
                     </fieldset>
