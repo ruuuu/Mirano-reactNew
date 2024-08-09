@@ -3,14 +3,13 @@ import './header.scss';
 import { toggleCart } from '../../redux/cartSlice.js';
 import { useSelector } from 'react-redux';
 import { fetchGoods } from '../../redux/goodsSlice.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
 
 {/* Компонент Header */}
-
-export const Header = () => {
+export const Header = ({ setTitleGoods }) => { 
 
     const dispatch = useDispatch(); // сообщает что нужно произвести опр действия
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины
@@ -26,6 +25,11 @@ export const Header = () => {
     const handleSubmit = (evt) => { // отправка формы поиска
         evt.preventDefault();
         dispatch(fetchGoods({ search: searchValue }));
+        setTitleGoods(`Результат поиска:`);
+        // evt.target.reset(); очистка офрмы
+        //useEffect(()=>{
+                // найти жлемент к котрому скроллим()
+        //}, [])
     };
     
 
@@ -34,7 +38,8 @@ export const Header = () => {
     return (
         <header className="header">   
             <div className="container header__container">
-                <form className="header__form" onSubmit={handleSubmit}>             {/* <!-- форма поиска --> */}
+             {/* форма поиска:  */}
+                <form className="header__form" onSubmit={handleSubmit}>     {/* при нажатии на отправку вызовется handleSubmit() */}        
                     <input className="header__input" type="search"  name="search"  placeholder="Букет из роз"  value={searchValue}  onChange={(evt) => { setSearchValue(evt.target.value) }}  />    {/* в onChange меняется значение searchValue  */}
                     <button className="header__search-button">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

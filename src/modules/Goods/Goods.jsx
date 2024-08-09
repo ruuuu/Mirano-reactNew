@@ -30,8 +30,8 @@ export const Goods = ({ title }) => {
         content =  <p>Загрузка товаров</p>;
     }
 
-    if(goodsStatus === 'succeeded'){
-        content =   <ul className="goods__list">
+    if(goodsStatus === 'succeeded' && goods.length){
+        content =  <ul className="goods__list">
                         {  goods.map((item) => (   
                             <li className="goods__item" key={item.id}>          { /* без атрибута key(props) будет ругаться */}
                                                             { /* data={item}  */}
@@ -42,8 +42,12 @@ export const Goods = ({ title }) => {
     }
 
 
+    if(!goods.length){
+        content =  <p> нет товаров </p>;
+    }
+
     if(goodsStatus === 'failed'){
-        content =  <p>Ошибка получения товаров {error}</p>;
+        content =  <p> Ошибка получения товаров {error} </p>;
     }
 
 

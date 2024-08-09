@@ -38,7 +38,7 @@ export const App = () => {
     return (
     //пустые <> </>  это React.Fragment, можно не писать  его и отсавить пустыми <></>
     <>  {/* родитель */}
-        <Header />   {/*  вызов компонента Header */}
+        <Header setTitleGoods={setTitleGoods} />   {/*  вызов компонента Header,  впропс передали функцию setTitleGoods() */}
 
         <main>
             <Hero />
