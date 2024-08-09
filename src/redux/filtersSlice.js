@@ -7,7 +7,7 @@ const initialState = {
     type: "bouquets",
     minPrice: "", 
     maxPrice: "",
-    category: ""
+    category: "",
 };
 
 
@@ -28,8 +28,8 @@ const filtersSlice = createSlice({
     changePrice(state, action){   
       state[action.payload.name] = action.payload.value; // name- имя свойсва котрое нужно поменять
 
-    },
-  }
+    }
+  },
   
 
 });

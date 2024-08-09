@@ -17,11 +17,13 @@ export const Cart = () => {
         return state.cart.isOpen;
     });
 
+
     if(!isOpen){
         return null;
     }
 
     const cartRef = useRef(null); // хук, нужен для скролла к элементу
+
 
     useEffect(() => {
         if(isOpen){
@@ -39,7 +41,7 @@ export const Cart = () => {
 
 
     const handlerOpenOrder = () => {
-        dispatch(openModal());
+        dispatch(openModal()); // окно формы заказа
     };
 
 
@@ -62,7 +64,7 @@ export const Cart = () => {
 
                 <ul className="cart__list">
                     {  items.map((item) => (  
-                            <CartItem  key={item.id} data={item} />
+                            <CartItem  key={item.id}  data={item} />
                         ))
                     }  
                 </ul>

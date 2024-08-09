@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // объект хранит нач значения состояний:
 const initialState = {
-  isOpenModal: false, // переменная состония, модалка закрыта
+  isOpenModal: false, // переменная состония, модалка формы заказа закрыта
 
 };
 

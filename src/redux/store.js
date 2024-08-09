@@ -13,7 +13,7 @@ const store = configureStore({
     order: orderReducer, 
     cart: cartReducer,   // cart-нзв стейта (initialState в cartSlice.js) которое указали в cartSlice.name
     goods: goodsReducer,
-    filter: filterReducer,
+    filters: filterReducer,
   }
 });
 

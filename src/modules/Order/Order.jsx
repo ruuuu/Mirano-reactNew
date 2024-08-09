@@ -2,6 +2,7 @@ import './order.scss';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../redux/orderSlice.js';
+import { useEffect } from 'react';
 
 
 
@@ -9,6 +10,7 @@ import { closeModal } from '../../redux/orderSlice.js';
  {/*  мод окно заказа: */}
 export const Order = () => {
 
+    const dispatch = useDispatch();
     const isOrderReady = false; // если еще заказа нет
    
 
@@ -26,7 +28,7 @@ export const Order = () => {
     }
 
 
-    const dispatch = useDispatch();
+    
 
     //  либо так:
     // const handlerCloseOrder = () => {
@@ -36,14 +38,40 @@ export const Order = () => {
     // либо так:
     const handlerCloseOrder = (evt) => {
         // evt.target.classList.matches('.order) либо:
+        
        if(evt.target.classList.contains('order') || evt.target.closest('.order__close')){
             dispatch(closeModal());
        } 
     };
 
+
+   
+
+
+    useEffect(() => {
+
+        const handleEscape = (evt) => {
+            if(evt.key === 'Escape'){
+                handlerCloseOrder();
+            }
+        };
+
+        
+        if(isOpenModal){
+            document.addEventListener('keydown', handleEscape); // по нажатию на esc
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEscape);
+        }
+    }, [ isOpenModal, handlerCloseOrder]);
+
+
+
+
     return (
         <div className="order" onClick={handlerCloseOrder}>     {/* оверлей, style={{  display: 'none', }} */}            
-            <div className="order__wrapper">   {/* сама модалка */}  
+            <div className="order__wrapper">   {/* сама модалка формы заказа */}  
                 { isOrderReady ?
                     <>
                         <h2 className="order__title"> Заказ офорлмен </h2> 
