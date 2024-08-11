@@ -7,9 +7,9 @@ import { API_URL } from "../const.js";
 export const fetchGoods = createAsyncThunk('goods/fetchGoods',  async (params) => {  // нзв 'goods/fetchGoods' придумали сами
       
       const queryString = new URLSearchParams(params).toString();  // params = { type: bouquets, minPrice: '340', maxPrice: '500', category: '["Монобукеты", "WoW Эффект", "Авторские букеты", "Букеты из сухоцветов", "Цветы в корзине", "Цветы в коробке"]', search }
-      console.log('queryString ', queryString);
+      console.log('queryString ', queryString); // search=%D0%BF%D0%B8%D0%BE%D0%BD%D1%8B или type=postcards
 
-      const response = await fetch(`${API_URL}/api/products${queryString ? `?${queryString}` : ''}`);    // /api/products?type=bouquets toys postcards
+      const response = await fetch(`${API_URL}/api/products${queryString ? `?${queryString}` : ''}`);    // /api/products?type=bouquets или  type=toys или type=postcards или search=%D0%B%D0%B
 
       return await response.json();
     }

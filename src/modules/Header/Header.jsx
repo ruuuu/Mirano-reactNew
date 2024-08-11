@@ -24,11 +24,11 @@ export const Header = ({ setTitleGoods }) => {
 
     const handleSubmit = (evt) => { // отправка формы поиска
         evt.preventDefault();
-        dispatch(fetchGoods({ search: searchValue }));
+        dispatch(fetchGoods({ search: searchValue })); // запрос поиска 
         setTitleGoods(`Результат поиска:`);
         // evt.target.reset(); очистка офрмы
         //useEffect(()=>{
-                // найти жлемент к котрому скроллим()
+                // найти элемент к котрому скроллим()
         //}, [])
     };
     

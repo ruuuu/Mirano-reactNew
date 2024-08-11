@@ -18,14 +18,14 @@ const filtersSlice = createSlice({
   initialState,
   reducers: {  
     
-    changeType(state, action){  
+    changeType(state, action){  // смена typeв фильтре: bouquets, toys, cards
       state.type = action.payload; 
       state.minPrice = "";
       state.maxPrice = "";
       state.category = "";
     },
 
-    changePrice(state, action){   
+    changePrice(state, action){   // смена minPrice и maxPrice в фильтре
       state[action.payload.name] = action.payload.value; // name- имя свойсва котрое нужно поменять
 
     }

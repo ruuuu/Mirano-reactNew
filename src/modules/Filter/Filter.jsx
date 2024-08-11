@@ -62,11 +62,14 @@ export const Filter = ({ setTitleGoods }) => {
         const prevFilters = prevFiltersRef.current;
         const validFilters = getValidFilters(filters);
 
-        if(prevFilters.type !== filters.type) {    // сравнение предыдущего и текущего фильтра(если сменили Тип)
+        if(prevFilters.type !== validFilters.type) {    // сравнение предыдущего и текущего фильтра(если сменили Тип)
             dispatch(fetchGoods(validFilters));
             console.log('типы, вызывался fetchGoods(validFilters) и validFilters ', validFilters )
+            const itemFilter = filterTypes.find((item) => item.value === validFilters.type)
+            setTitleGoods(itemFilter.title);
         } 
         else{
+           
             debounceFetchGoods(validFilters);
             console.log('прайсы, вызывался debounceFetchGoods(filters) и filters ', filters)
         } 
@@ -86,8 +89,7 @@ export const Filter = ({ setTitleGoods }) => {
         // const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
         dispatch(changeType(value)); // редьюсер вызвали, обновили значение перем состояния filters
         setOpenChoice(-1);  // закрываем все фильтры
-        const itemFilter = filterTypes.find((item) => item.value === value)
-        setTitleGoods(itemFilter.title);
+       
     };
         
     
