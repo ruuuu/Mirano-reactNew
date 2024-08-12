@@ -29,7 +29,7 @@ export const Filter = ({ setTitleGoods }) => {
 
     const dispatch = useDispatch();    
 
-    const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category}
+    const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category, search}
     console.log('filters from state ', filters)
 
 
@@ -61,11 +61,15 @@ export const Filter = ({ setTitleGoods }) => {
         console.log('работает useEffect')
         const prevFilters = prevFiltersRef.current;
         const validFilters = getValidFilters(filters);
+        
+        if(!validFilters.type){ // типа нет
+            return; // выйдет из useEffect
+        }
 
         if(prevFilters.type !== validFilters.type) {    // сравнение предыдущего и текущего фильтра(если сменили Тип)
             dispatch(fetchGoods(validFilters));
-            console.log('типы, вызывался fetchGoods(validFilters) и validFilters ', validFilters )
-            const itemFilter = filterTypes.find((item) => item.value === validFilters.type)
+            console.log('типы, вызывался fetchGoods(validFilters) и validFilters ', validFilters );
+            const itemFilter = filterTypes.find((item) => item.value === validFilters.type); // {value, title}
             setTitleGoods(itemFilter.title);
         } 
         else{
@@ -82,14 +86,13 @@ export const Filter = ({ setTitleGoods }) => {
 
 
 
-    //фильтр по смене типа  { target }
+    // фильтр по смене типа { target }
     const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
         //  { value } = target  
         const value = evt.target.value;  
         // const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
-        dispatch(changeType(value)); // редьюсер вызвали, обновили значение перем состояния filters
-        setOpenChoice(-1);  // закрываем все фильтры
-       
+        dispatch(changeType(value)); // редьюсер вызвали
+        setOpenChoice(-1);  // закрываем  фильтры Цена и категории(Тип товара)
     };
         
     
@@ -98,11 +101,9 @@ export const Filter = ({ setTitleGoods }) => {
 
     // филтр по смене цены   { target }
     const handlePriceChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value, name } = target
-        
-        //console.log('evt.target in handlePriceChange ', evt.target);
         // { value, name } = target
         const value = evt.target.value; 
-        const name = evt.target.name;  // name = minPrice  или maxPrice 
+        const name = evt.target.name;  // получили значение атрибута name (minPrice  или maxPrice) 
         
         //const newFilters = { ...filters, [name]: !isNaN(parseInt(value)) ? value : '' };        // у filters заменили значение 
         
@@ -122,7 +123,7 @@ export const Filter = ({ setTitleGoods }) => {
             <div className="container">
                 <form className="filter__form">
                     <fieldset className="filter__group">
-                        {   filterTypes.map((item)=> (    //       вернет массив коммопнентов <FilterRadio/>: 
+                        {   filterTypes.map((item)=> (    //       вернет массив компонентов <FilterRadio/>: 
                                 <FilterRadio key={item.value} handleTypeChange={ handleTypeChange } data={item} type={filters.type}  />
                             ))
                         }

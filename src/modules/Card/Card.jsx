@@ -9,15 +9,15 @@ import { useState } from "react";
 
 
 {/*Компонент card  карточка товара */}
-
-export const Card = ({ className, id, photoUrl, name, dateDelivery, price }) => { // data деструктурировли, первая {} от пропсов
+export const Card = ({ className,  id, photoUrl, name, dateDelivery, price }) => { // data деструктурировли, первая {} от пропсов
 
 
     const dispatch = useDispatch();
 
 
     const handlerAddToCart = () => {
-        dispatch(addItemToCart({ id, photoUrl, name, price, dateDelivery })); // добаивли товар в корзину
+        //                 id переименовали в productId
+        dispatch(addItemToCart({ productId:id, quantity:1 })); // добаивли товар в корзину   id, photoUrl, name, price, dateDelivery
     };
 
 

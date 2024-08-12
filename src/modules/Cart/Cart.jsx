@@ -1,10 +1,11 @@
 import './cart.scss';
+import { useEffect, useRef } from 'react';
 import { CartItem } from '../CartItem/CartItem.jsx';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { toggleCart } from '../../redux/cartSlice.js';
 import { openModal } from '../../redux/orderSlice.js';
-import { useEffect, useRef } from 'react';
+
 
 
 
@@ -16,6 +17,8 @@ export const Cart = () => {
     const isOpen = useSelector((state) => {
         return state.cart.isOpen;
     });
+
+    const items = useSelector((state) => state.cart.items);  // список товаров Корзины
 
 
     if(!isOpen){
@@ -32,7 +35,7 @@ export const Cart = () => {
     }, [ isOpen ]);  // при каждом изменении isOpen бдет вызываьс переданная функция
 
 
-    const items = useSelector((state) => state.cart.items);  // список товаров Корзины
+   
 
    
     const handlerCartClose = () => {
@@ -63,7 +66,7 @@ export const Cart = () => {
                 <p className="cart__date-delivery"> сегодня&nbsp;в&nbsp;14:00 </p>
 
                 <ul className="cart__list">
-                    {  items.map((item) => (  
+                    {   items.map((item) => (  // вернет массив <CartItem>
                             <CartItem  key={item.id}  data={item} />
                         ))
                     }  

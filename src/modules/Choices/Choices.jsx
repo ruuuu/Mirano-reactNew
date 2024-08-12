@@ -5,7 +5,7 @@ import './choices.scss';
 
 // выпадающий список
 //                                  созданный стейт(isOpen) можно передать ввиде props
-export const Choices = ( { children, buttonLabel, className, isOpen, onToggle } ) => {  //  children, buttonLabel  это пропсы
+export const Choices = ( { children, buttonLabel, className, isOpen, onToggle } ) => {  //  children, buttonLabel, className, isOpen, onToggle это пропсы
   
   //console.log('onToggle ', onToggle )     // () => { handleChoicesToggle(1) }
 

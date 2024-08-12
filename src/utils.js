@@ -47,3 +47,10 @@ export const debounce = (fn, msec) => {  // debounce функия высшго �
 
 // sumDebounce(4, 6);
 // sumDebounce(8, 16);
+
+
+
+export const isNumber = (n) => {
+
+  return (!isNaN(parseInt(n)) && isFinite(n));
+}

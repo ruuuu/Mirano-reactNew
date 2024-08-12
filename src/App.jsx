@@ -5,10 +5,10 @@ import { Filter } from "./modules/Filter/Filter";
 import { Hero } from "./modules/Hero/Hero";
 import { Subscribe } from "./modules/Subscribe/Subscribe";
 import { Order } from "./modules/Order/Order.jsx";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerCart } from "./redux/cartSlice.js";
-import { useState } from "react";
+import { fetchCart, registerCart } from "./redux/cartSlice.js";
+
 
 
 
@@ -24,7 +24,7 @@ export const App = () => {
 
         const initializeCart = async () => {
             await dispatch(registerCart());
-        // await фукния яполучения данных из корзины
+            await dispatch(fetchCart());
         };
 
         initializeCart();

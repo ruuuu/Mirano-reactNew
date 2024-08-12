@@ -4,23 +4,60 @@ import { API_URL } from "../const.js";
 //Регитрация
 export const registerCart = createAsyncThunk('cart/registerCart', async() => {
 
-  const response = fetch(`${API_URL}/api/cart/register`, {
+  const response = await fetch(`${API_URL}/api/cart/register`, {
     method: 'POST', 
     credentials: 'include' // куки вклбчены
-
   });
+
+  if(!response.ok){
+    throw new Error("не можем поучить данные с сервера");
+  }
 
   return await response.json();
 });
 
 
 
+export const fetchCart = createAsyncThunk('cart/fetchCart', async() => { // получение товров из Корзины
+
+  const response = await fetch(`${API_URL}/api/cart`, {
+    credentials: 'include' // куки вклбчены
+  });
+
+  if(!response.ok){
+    throw new Error("не можем поучить данные с сервера");
+  }
+
+  return await response.json();
+});
+
+
+
+export const addItemToCart = createAsyncThunk('cart/addItemToCart', async({ productId, quantity }) => { // добавлени товара в Корзину
+  
+  const response = await fetch(`${API_URL}/api/cart/items`, {
+    method: 'POST', 
+    credentials: 'include', // куки вклбчены
+    headers: {
+      "Content-Type": 'application/json',
+    },
+    body: JSON.stringify({ productId, quantity }),
+  });
+
+  if(!response.ok){
+    throw new Error("не можем отпраить данные с сервера");
+  }
+
+  return await response.json();
+ 
+});
+
 
 
 // объект хранит нач значения состояний, нзв состояний(свойств) придумываем сами:
 const initialState = {
   isOpen: false,        // корзина закрыта
-  items: JSON.parse(localStorage.getItem("cartItems") || "[]"), // список товаров корзины [{},{}]
+  items: [], // список товаров корзины [{},{}]
   status: 'idle',
   accessKey: null,
   error: null
@@ -39,21 +76,21 @@ const cartSlice = createSlice({
       state.isOpen = !state.isOpen;
     },
 
-    addItemToCart(state, action){   // редьюсер, добавление тоара в Коризну
-      const { id, photoUrl, name, price, dateDelivery, count = 1 } = action.payload;  // деструкткрируем объект, count по умолчанию =1
-      console.log('action.payload ', action.payload)
+    // addItemToCart(state, action){   // редьюсер, добавление тоара в Коризну
+    //   const { id, photoUrl, name, price, dateDelivery, count = 1 } = action.payload;  // деструкткрируем объект, count по умолчанию =1
+    //   console.log('action.payload ', action.payload)
     
-      const existingItem = state.items.find(item => item.id === id);
+    //   const existingItem = state.items.find(item => item.id === id);
       
-      if(existingItem){
-        existingItem.count = count;
-      }
-      else{
-        state.items.push({ id, photoUrl, name, price, dateDelivery, count });
-      }
+    //   if(existingItem){
+    //     existingItem.count = count;
+    //   }
+    //   else{
+    //     state.items.push({ id, photoUrl, name, price, dateDelivery, count });
+    //   }
 
-      localStorage.setItem('cartItems', JSON.stringify(state.items));  // обновлем хранилище
-    },
+    //   localStorage.setItem('cartItems', JSON.stringify(state.items));  // обновлем хранилище
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(registerCart.pending, (state) => {
@@ -68,6 +105,32 @@ const cartSlice = createSlice({
       state.accessKey = '';
       state.error = action.error.message;
     });
+
+
+    builder.addCase(fetchCart.pending, (state) => {
+      state.status = 'loading';  
+    })
+    builder.addCase(fetchCart.fulfilled, (state, action) => {
+      state.status = 'success';  
+      state.items = action.payload; // в action.payload будет то, что сервер отдаст
+    })
+    builder.addCase(fetchCart.rejected, (state, action) => {
+      state.status = 'failed';  // ошибка при запросе сервера
+      state.error = action.error.message;
+    });
+
+
+    builder.addCase(addItemToCart.pending, (state) => {
+      state.status = 'loading';  
+    })
+    builder.addCase(addItemToCart.fulfilled, (state, action) => {
+      state.status = 'success';  
+      state.items = action.payload; // в action.payload будет то, что сервер отдаст
+    })
+    builder.addCase(addItemToCart.rejected, (state, action) => {
+      state.status = 'failed';  // ошибка при запросе сервера
+      state.error = action.error.message;
+    });
   }
   
 
@@ -76,5 +139,5 @@ const cartSlice = createSlice({
 
 console.log('cartSlice', cartSlice)
 
-export const { toggleCart, addItemToCart } = cartSlice.actions;  // экспорт редьюсеров, деструктрироваи в левой части
+export const { toggleCart } = cartSlice.actions;  // экспорт редьюсеров, деструктрироваи в левой части
 export default cartSlice.reducer;
