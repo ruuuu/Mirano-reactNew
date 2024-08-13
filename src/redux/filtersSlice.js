@@ -29,10 +29,8 @@ const filtersSlice = createSlice({
     changePrice(state, action){   // редьюсер, смена minPrice и maxPrice в фильтре
       //console.log('action.payload in changePrice');   // { name, value }
       if(isNumber(action.payload.value) || action.payload.value === ""){ // чтобы не вводить буквы в поле
-          state[action.payload.name] = action.payload.value;      // name- атрибут у поля <input>
+        state[action.payload.name] = action.payload.value;      // name- атрибут у поля <input>
       }
-      
-
     }
   },
   

@@ -7,6 +7,7 @@ import { fetchGoods } from "../../redux/goodsSlice.js";
 import { useEffect } from "react";
 import { API_URL } from "../../const.js";
 import { useState } from "react";
+import { useRef } from "react";
 
 
 
@@ -16,15 +17,13 @@ export const Goods = ({ title }) => {
     // хук вернет объект state, его дестуктурируем, items переимновали в goods, status переименовали в goodsStatus:
     const { items: goods, status: goodsStatus, error } = useSelector((state) => state.goods);   // [{}, {},{}]-товары с сервера
     
-    
 
-    // if(goodsStatus){ // так нельзя делать иначе при каждой смене статуса будет отправка запроса(большая нагрузка на сервер), поэтому используем хук useEffect
-       // dispatch(fetchGoods())
-    //}
-
-   
 
     let content = null;
+
+     // if(goodsStatus){ // так нельзя делать иначе при каждой смене статуса будет отправка запроса(большая нагрузка на сервер), поэтому используем хук useEffect
+       // dispatch(fetchGoods())
+    //}
 
     if(goodsStatus === 'loading'){
         content =  <p>Загрузка товаров</p>;
@@ -42,19 +41,20 @@ export const Goods = ({ title }) => {
     }
 
 
-    if(!goods.length){
-        content =  <p> нет товаров </p>;
+    if(goodsStatus === 'succeeded' && !goods.length){
+        content = <p> нет товаров </p>;
     }
 
     if(goodsStatus === 'failed'){
-        content =  <p> Ошибка получения товаров {error} </p>;
+        content = <p> Ошибка получения товаров {error} </p>;
     }
 
 
+    
 
 
     return (
-        <section className="goods">  
+        <section className="goods">              {/* скролл к этому элементу */}
             <div className="container goods__container">
                 <div className="goods__box">
                     <h3 className="goods__title"> {title} </h3>

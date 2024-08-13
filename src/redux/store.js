@@ -14,6 +14,7 @@ const store = configureStore({
     cart: cartReducer,   // cart-нзв стейта (initialState в cartSlice.js) которое указали в cartSlice.name
     goods: goodsReducer,
     filters: filterReducer,
+   
   }
 });
 

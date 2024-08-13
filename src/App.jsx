@@ -8,7 +8,7 @@ import { Order } from "./modules/Order/Order.jsx";
 import { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, registerCart } from "./redux/cartSlice.js";
-
+import { useRef } from "react";
 
 
 
@@ -18,6 +18,7 @@ export const App = () => {
 
     //заводим перем состония
     const [ titleGoods, setTitleGoods ] = useState("Букеты");
+    const filterRef = useRef(null);                              // хук, нужен для скролла к элементу
 
 
     useEffect(() => {
@@ -33,17 +34,27 @@ export const App = () => {
 
 
 
+    const scrollToFilter = () => {
+        // console.log('filterRef.current ', filterRef.current) // <section class="filter">
+        if(filterRef.current){
+            filterRef.current.scrollIntoView({ behavior: 'smooth' }); // скролл к filterRef <Filter />
+        } 
+    };
+   
+        
+   
+   
 
 
     return (
     //пустые <> </>  это React.Fragment, можно не писать  его и отсавить пустыми <></>
     <>  {/* родитель */}
-        <Header setTitleGoods={setTitleGoods} />   {/*  вызов компонента Header,  впропс передали функцию setTitleGoods() */}
+        <Header setTitleGoods={setTitleGoods}  scrollToFilter={scrollToFilter}  />   {/*  вызов компонента Header,  впропс передали функцию setTitleGoods() */}
 
         <main>
             <Hero />
 
-            <Filter setTitleGoods={setTitleGoods} />   {/* передем фукнцию  */}
+            <Filter setTitleGoods={setTitleGoods}  filterRef={filterRef} />   {/* filterRef-скролим к секции Filter, передем фукнцию setTitleGoods */}
 
             <Goods title={titleGoods} /> 
 
@@ -53,7 +64,6 @@ export const App = () => {
         <Footer />   
 
         <Order />
-
     </>
     )
 }

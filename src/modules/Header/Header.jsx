@@ -8,15 +8,17 @@ import { changeType } from '../../redux/filtersSlice.js';
 
 
 
+
 {/* Компонент Header */}
-export const Header = ({ setTitleGoods }) => { 
+export const Header = ({ setTitleGoods, scrollToFilter }) => {  // пропсы передаем
 
     const dispatch = useDispatch(); // сообщает что нужно произвести опр действия
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины
-    const filters = useSelector((state) => state.filters);
-
-    // завели перменную состония:
-    const [ searchValue, setSearchValue ] = useState('');
+    console.log('itemsCart ', itemsCart)
+    //заводим перем состония:
+    const [ searchValue, setSearchValue ] = useState("");   
+    
+   
 
 
     const handlerCartToggle = () => {
@@ -26,14 +28,12 @@ export const Header = ({ setTitleGoods }) => {
 
     const handleSubmit = (evt) => { // отправка формы поиска
         evt.preventDefault();
-        dispatch(fetchGoods({ search: searchValue })); //  запрос поиска 
+        dispatch(fetchGoods({ search: searchValue })); // вызов редьюсера,  запрос поиска 
         setTitleGoods(`Результат поиска:`);
-        dispatch(changeType("")); // вызов редьюсера
-        dispatch(fetchGoods(filters));
-        evt.target.value=""; // очистка поля
-        //useEffect(()=>{
-                // найти элемент к котрому скроллим()
-        //}, [])
+        dispatch(changeType(""));               // вызов редьюсера
+        setSearchValue("");        // очистка поля
+        scrollToFilter(); 
+       
     };
     
 
@@ -43,7 +43,7 @@ export const Header = ({ setTitleGoods }) => {
         <header className="header">   
             <div className="container header__container">
              {/* форма поиска:  */}
-                <form className="header__form"  onSubmit={handleSubmit}>     {/* при нажатии на отправку вызовется handleSubmit() */}        
+                <form className="header__form"  onSubmit={handleSubmit}  action="#">     {/* при нажатии на отправку вызовется handleSubmit() */}        
                     <input className="header__input" type="search"  name="search"  placeholder="Букет из роз"  value={searchValue}  onChange={(evt) => { setSearchValue(evt.target.value); }}  />    {/* в onChange меняется значение searchValue  */}
                     <button className="header__search-button">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +55,15 @@ export const Header = ({ setTitleGoods }) => {
 
                 <img className="header__logo" width="200" height="65" src="/img/logo.svg" alt="Логотип магазина букетов Mirano" />  {/*  отсчет от папки public:  */}
                                                 {/* () => { dispatch(toggleCart) } */}
-                <button className="header__cart-btn" onClick={handlerCartToggle}> { itemsCart.length } </button>
+                <button className="header__cart-btn" onClick={handlerCartToggle}> 
+                    { itemsCart.reduce((acc, item) => {
+                        return acc+= item.quantity
+                    }, 0) }
+                    {/* или так:
+                    {
+                        itemsCart.reduce((acc, item)=>  acc+item.quantity, 0)
+                    } */}
+                </button>
             </div>
         </header>
     )

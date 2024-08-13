@@ -22,15 +22,15 @@ const filterTypes = [
 
 
  {/* Компонент  */}
-export const Filter = ({ setTitleGoods }) => {
+export const Filter = ({ setTitleGoods, filterRef }) => {
 
     // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
 
     const dispatch = useDispatch();    
 
-    const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category, search}
-    console.log('filters from state ', filters)
+    const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category}
+    
 
 
     const handleChoicesToggle = (index) => {
@@ -73,7 +73,6 @@ export const Filter = ({ setTitleGoods }) => {
             setTitleGoods(itemFilter.title);
         } 
         else{
-           
             debounceFetchGoods(validFilters);
             console.log('прайсы, вызывался debounceFetchGoods(filters) и filters ', filters)
         } 
@@ -87,12 +86,12 @@ export const Filter = ({ setTitleGoods }) => {
 
 
     // фильтр по смене типа { target }
-    const handleTypeChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
+    const handleTypeChange = (evt) => {             // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
         //  { value } = target  
         const value = evt.target.value;  
         // const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
-        dispatch(changeType(value)); // редьюсер вызвали
-        setOpenChoice(-1);  // закрываем  фильтры Цена и категории(Тип товара)
+        dispatch(changeType(value));                // редьюсер вызвали
+        setOpenChoice(-1);                          // закрываем  фильтры Цена и категории(Тип товара)
     };
         
     
@@ -103,12 +102,12 @@ export const Filter = ({ setTitleGoods }) => {
     const handlePriceChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value, name } = target
         // { value, name } = target
         const value = evt.target.value; 
-        const name = evt.target.name;  // получили значение атрибута name (minPrice  или maxPrice) 
+        const name = evt.target.name;            // получили значение атрибута name (minPrice  или maxPrice) у поля
         
         //const newFilters = { ...filters, [name]: !isNaN(parseInt(value)) ? value : '' };        // у filters заменили значение 
         
         //console.log('newFilters in handlePriceChange ', newFilters);                    // { type: 'bouquets', minPrice: 2, maxPrice: '', category: '' }
-        dispatch(changePrice({ name, value })); //  редьюсер вызвали, обновили значение перем состояния filters
+        dispatch(changePrice({ name, value }));             //  редьюсер вызвали, обновили значение перем состояния filters
     };
 
 
@@ -117,7 +116,7 @@ export const Filter = ({ setTitleGoods }) => {
 
 
     return (
-        <section className="filter">
+        <section className="filter" ref={filterRef}>
             <h2 className="visually-hidden"> Фильтр </h2>
             
             <div className="container">

@@ -15,15 +15,10 @@ export const Cart = () => {
     const dispatch = useDispatch();
 
     const isOpen = useSelector((state) => {
-        return state.cart.isOpen;
+        return state.cart.isOpen; // Корзина открыта
     });
 
-    const items = useSelector((state) => state.cart.items);  // список товаров Корзины
-
-
-    if(!isOpen){
-        return null;
-    }
+    const items = useSelector((state) => state.cart.items);  // список товаров Корзины [{}, {}]
 
     const cartRef = useRef(null); // хук, нужен для скролла к элементу
 
@@ -35,7 +30,10 @@ export const Cart = () => {
     }, [ isOpen ]);  // при каждом изменении isOpen бдет вызываьс переданная функция
 
 
-   
+    if(!isOpen){
+        return null;
+    }
+
 
    
     const handlerCartClose = () => {
@@ -44,14 +42,14 @@ export const Cart = () => {
 
 
     const handlerOpenOrder = () => {
-        dispatch(openModal()); // окно формы заказа
+        dispatch(openModal());          // окно формы заказа
     };
 
 
 
 
     return (
-        <section className="cart cart--open" ref={cartRef}>  {/* скролл к этому лементу */}
+        <section className="cart cart--open" ref={cartRef}>             {/* ref значит скролл к этому элементу */}
             <div class="cart__container">
                 <div className="cart__header">
                     <h3 className="cart__title"> Ваш заказ </h3>
@@ -73,7 +71,7 @@ export const Cart = () => {
                 </ul>
 
                 <div className="cart__footer">
-                    <button className="cart__order-btn" onClick={handlerOpenOrder}> Оформить </button>
+                    <button className="cart__order-btn"  onClick={handlerOpenOrder}> Оформить </button>
                     <p className="cart__price cart__price--total"> 3000&nbsp;₽ </p>
                 </div>
             </div>

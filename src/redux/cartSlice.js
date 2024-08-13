@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_URL } from "../const.js";
 
+
+
 //Регитрация
 export const registerCart = createAsyncThunk('cart/registerCart', async() => {
 
@@ -28,7 +30,7 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async() => { // по
     throw new Error("не можем поучить данные с сервера");
   }
 
-  return await response.json();
+  return await response.json();  // [  {productId, quantity}, {}]
 });
 
 
@@ -49,8 +51,8 @@ export const addItemToCart = createAsyncThunk('cart/addItemToCart', async({ prod
   }
 
   return await response.json();
- 
 });
+
 
 
 
