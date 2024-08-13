@@ -16,7 +16,7 @@ export const Card = ({ className,  id, photoUrl, name, dateDelivery, price }) =>
 
 
     const handlerAddToCart = () => {
-        //                 id переименовали в productId
+       
         dispatch(addItemToCart({ productId:id, quantity:1 })); // добаивли товар в корзину   id, photoUrl, name, price, dateDelivery
     };
 

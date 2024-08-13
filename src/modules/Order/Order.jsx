@@ -27,25 +27,21 @@ export const Order = () => {
         return null; // модалка закрыта
     }
 
-
     
-
-    //  либо так:
     // const handlerCloseOrder = () => {
     //     dispatch(closeModal());
     // };
 
     // либо так:
     const handlerCloseOrder = (evt) => {
-        // evt.target.classList.matches('.order) либо:
-        
+        // evt.target.classList.matches('.order) 
+        // либо:
        if(evt.target.classList.contains('order') || evt.target.closest('.order__close')){
             dispatch(closeModal());
        } 
     };
 
 
-   
 
 
     useEffect(() => {
@@ -67,6 +63,13 @@ export const Order = () => {
     }, [ isOpenModal, handlerCloseOrder]);
 
 
+    
+
+   
+   
+
+
+   
 
 
     return (
