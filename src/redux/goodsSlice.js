@@ -31,6 +31,7 @@ const initialState = {
   items: [],  // товары получим с сервера
   status: 'idle',  // еще не было загрузки товаров
   error: null,  // ошибки запроса
+  categories: [], 
 }
 
 
@@ -46,10 +47,20 @@ const goodsSlice = createSlice({
 
     builder.addCase(fetchGoods.pending, (state) => {
       state.status = 'loading';  // loading сами придумали, ждем ответа от сервера
+      state.categories = [];
     })
     builder.addCase(fetchGoods.fulfilled, (state, action) => {
       state.status = 'succeeded';  // succeeded сами придумали, сервер ответил
-      state.items = action.payload; // в action.payload будет то, что сервер отдаст
+      state.items = action.payload; // в action.payload будет то, что сервер отдаст [{},{},{}]
+      state.categories = action.payload.forEach(product => { // колеекцию  set и map в redux   использовать нельзя
+        if(product.categories){
+          product.categories.forEach((category)=>{
+            if(!state.categories.includes(category)) {   // если в массиве state.categories нет элемент category
+              state.categories.push(category);
+            } 
+          })
+        }
+      });
     })
     builder.addCase(fetchGoods.rejected, (state, action) => {
       state.status = 'failed';  // ошибка при запросе сервера

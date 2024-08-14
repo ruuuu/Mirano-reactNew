@@ -14,10 +14,13 @@ export const Header = ({ setTitleGoods, scrollToFilter }) => {  // пропсы 
 
     const dispatch = useDispatch(); // сообщает что нужно произвести опр действия
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины
+    
+
     console.log('itemsCart ', itemsCart)
     //заводим перем состония:
     const [ searchValue, setSearchValue ] = useState("");   
     
+
    
 
 

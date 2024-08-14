@@ -18,7 +18,7 @@ export const Cart = () => {
         return state.cart.isOpen; // Корзина открыта
     });
 
-    const items = useSelector((state) => state.cart.items);  // список товаров Корзины [{}, {}]
+    const items = useSelector((state) => state.cart.items);  // список товаров Корзины [{ id, photoUrl, name, price, quantity }, {}]
 
     const cartRef = useRef(null); // хук, нужен для скролла к элементу
 
@@ -71,8 +71,13 @@ export const Cart = () => {
                 </ul>
 
                 <div className="cart__footer">
-                    <button className="cart__order-btn"  onClick={handlerOpenOrder}> Оформить </button>
-                    <p className="cart__price cart__price--total"> 3000&nbsp;₽ </p>
+                    <button className="cart__order-btn"  onClick={handlerOpenOrder}  disabled={!items.lendth}> Оформить </button>
+                    <p className="cart__price cart__price--total"> 
+                        {
+                            items.reduce((acc, item) => {
+                               return acc+= item.quantity * item.price
+                        }, 0) }&nbsp;₽ 
+                    </p>
                 </div>
             </div>
         </section>

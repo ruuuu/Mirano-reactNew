@@ -30,7 +30,7 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
     const dispatch = useDispatch();    
 
     const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category}
-    
+    const categories = useSelector((state) => state.goods.categories);
 
 
     const handleChoicesToggle = (index) => {
@@ -136,25 +136,21 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
                             </fieldset>
                         </Choices>
 
-                        <Choices  buttonLabel="Тип товара"  className="filter__choices--type"  isOpen={openChoice === 1}  onToggle={() => { handleChoicesToggle(1) }}>  {/* вызываем компонет и  передаем пропсы: buttonLabel  className isOpen handleToggle */}
-                            <ul className="filter__type-list">
-                                <li className="filter__type-item">
-                                    <button className="filter__type-btn" type="button"> Монобукеты </button>
-                                </li>
-                                <li className="filter__type-item">
-                                    <button className="filter__type-btn" type="button"> Авторские букеты </button>
-                                 </li>
-                                <li className="filter__type-item">
-                                     <button className="filter__type-btn" type="button"> Цветы в коробке </button>
-                                </li>
-                                <li className="filter__type-item">
-                                    <button className="filter__type-btn" type="button"> Цветы в корзине </button>
-                                </li>
-                                <li className="filter__type-item">
-                                    <button className="filter__type-btn" type="button"> Цветы из сухоцветов </button>
-                                </li> 
-                             </ul>
-                        </Choices>
+                        
+                        { categories.length ? 
+                           (
+                            <Choices  buttonLabel="Тип товара"  className="filter__choices--type"  isOpen={openChoice === 1}  onToggle={() => { handleChoicesToggle(1) }}>  {/* вызываем компонет и  передаем пропсы: buttonLabel  className isOpen handleToggle */}
+                                <ul className="filter__type-list">
+                                    { categories.map((category) => (
+                                        <li className="filter__type-item" key={category}>
+                                            <button className="filter__type-btn" type="button" onClick={()=>{handleCategoryChange(category)}}> {category} </button>
+                                        </li>
+                                      )
+                                    )}
+                                </ul>
+                            </Choices>
+                           ) : null
+                        }           
                     </fieldset>
                 </form>
             </div>
