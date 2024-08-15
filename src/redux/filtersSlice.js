@@ -8,7 +8,7 @@ const initialState = {
     type: "bouquets",
     minPrice: "", 
     maxPrice: "",
-    category: "",
+    //category: "",
 };
 
 
@@ -27,11 +27,16 @@ const filtersSlice = createSlice({
     },
 
     changePrice(state, action){   // редьюсер, смена minPrice и maxPrice в фильтре
-      //console.log('action.payload in changePrice');   // { name, value }
+      //console.log('action.payload in changePrice');   // { name, value } значения котрые введем в  текстовго поле
       if(isNumber(action.payload.value) || action.payload.value === ""){ // чтобы не вводить буквы в поле
         state[action.payload.name] = action.payload.value;      // name- атрибут у поля <input>
       }
-    }
+    },
+
+    // changeCategory(state, action){ // смена Типа товара
+    //   console.log('action.payload in changeCategory ', action.payload)
+    //   state.category = action.payload; //  
+    // }
   },
   
 
@@ -39,6 +44,6 @@ const filtersSlice = createSlice({
 
 
 
-
-export const { changeType, changePrice } = filtersSlice.actions;  // деструктрироваи в левой части
+//changeCategory
+export const { changeType, changePrice,  } = filtersSlice.actions;  // деструктрироваи в левой части
 export default filtersSlice.reducer;

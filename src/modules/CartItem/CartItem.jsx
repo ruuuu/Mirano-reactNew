@@ -16,7 +16,7 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
     const [ inputQuantity, setinputQuantity ] = useState(quantity);
 
 
-    const debounceInputChange = debounce((newQuantity) => {
+    const debounceInputChange = debounce((newQuantity) => { // чтобы на каждую введенную цифру не уходил запрос на сервер
         dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
     }, 500);
 
@@ -32,17 +32,17 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
 
     const handleDecrement = () => {
 
-        const newQuantity = inputQuantity-1;
+        const newQuantity = inputQuantity - 1;
         setinputQuantity(newQuantity);
-        dispatch(addItemToCart({ productId: id, quantity: newQuantity })); 
+        dispatch(addItemToCart({ productId: id, quantity: inputQuantity })); 
     };
 
 
     const handleIncrement = () => {
 
-        const newQuantity = inputQuantity+1;
+        const newQuantity = inputQuantity + 1;
         setinputQuantity(newQuantity);
-        dispatch(addItemToCart({ productId: id, quantity: newQuantity })); 
+        dispatch(addItemToCart({ productId: id, quantity: inputQuantity })); 
     };  
 
 
@@ -55,9 +55,9 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
             <h4 className="cart__item-title"> {name} </h4>
 
             <div className="cart__counter">
-                <button onClick={handleDecrement} > + </button>
-                <input className="cart__counter-input" type="number" min="0" max="99" value={inputQuantity}  onChange={handleInputChange} /> {inputQuantity}
-                <button onClick={handleIncrement} > - </button>
+                <button onClick={handleDecrement} > - </button>
+                <input className="cart__counter-input" type="number" min="0" max="99"  onChange={handleInputChange} /> {inputQuantity}
+                <button onClick={handleIncrement} > + </button>
             </div>
 
             <p className="cart__price"> {price * inputQuantity}&nbsp;₽ </p>

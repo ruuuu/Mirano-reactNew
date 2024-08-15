@@ -8,6 +8,7 @@ import { useRef } from 'react';
 import { FilterRadio } from './FilterRadio.jsx';
 import { useSelector } from 'react-redux';
 import { changePrice, changeType } from '../../redux/filtersSlice.js';
+// changeCategory
 
 
 
@@ -38,6 +39,11 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
         setOpenChoice(openChoice === index ? null : index);      // setOpenChoice принимает функцию
     };
 
+
+    const handleCategoryChange = (category) => {
+        dispatch(changeCategory(category))  // вызов редьюсера
+        setOpenChoice(-1); // закрыавем список типов товаров(в ui)
+    };
 
 
 
@@ -137,20 +143,7 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
                         </Choices>
 
                         
-                        { categories.length ? 
-                           (
-                            <Choices  buttonLabel="Тип товара"  className="filter__choices--type"  isOpen={openChoice === 1}  onToggle={() => { handleChoicesToggle(1) }}>  {/* вызываем компонет и  передаем пропсы: buttonLabel  className isOpen handleToggle */}
-                                <ul className="filter__type-list">
-                                    { categories.map((category) => (
-                                        <li className="filter__type-item" key={category}>
-                                            <button className="filter__type-btn" type="button" onClick={()=>{handleCategoryChange(category)}}> {category} </button>
-                                        </li>
-                                      )
-                                    )}
-                                </ul>
-                            </Choices>
-                           ) : null
-                        }           
+                                  
                     </fieldset>
                 </form>
             </div>
