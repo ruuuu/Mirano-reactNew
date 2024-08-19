@@ -24,7 +24,7 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
     const handleInputChange = (evt) => { // ввели в поле значнеие
 
         const newQuantity = parseInt(evt.target.value);
-        setinputQuantity(newQuantity);
+        setinputQuantity(newQuantity); // inputQuantity = newQuantity
         debounceInputChange(newQuantity);
     };
 
@@ -34,7 +34,7 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
 
         const newQuantity = inputQuantity - 1;
         setinputQuantity(newQuantity);
-        dispatch(addItemToCart({ productId: id, quantity: inputQuantity })); 
+        dispatch(addItemToCart({ productId: id, quantity: newQuantity })); 
     };
 
 
@@ -42,7 +42,7 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
 
         const newQuantity = inputQuantity + 1;
         setinputQuantity(newQuantity);
-        dispatch(addItemToCart({ productId: id, quantity: inputQuantity })); 
+        dispatch(addItemToCart({ productId: id, quantity: newQuantity })); 
     };  
 
 
@@ -55,8 +55,8 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
             <h4 className="cart__item-title"> {name} </h4>
 
             <div className="cart__counter">
-                <button onClick={handleDecrement} > - </button>
-                <input className="cart__counter-input" type="number" min="0" max="99"  onChange={handleInputChange} /> {inputQuantity}
+                <button onClick={handleDecrement} > - </button>         {/*  если бы нужно был быпрелатьва в фукнцию параметры то onClick={()=> handleDecrement(-1)}   */}
+                <input className="cart__counter-input" type="number" min="0" max="99"  onChange={handleInputChange}  value={inputQuantity} />  {/* при вводе в поле срабоатет onChange  */}
                 <button onClick={handleIncrement} > + </button>
             </div>
 

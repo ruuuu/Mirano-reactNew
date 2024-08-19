@@ -71,7 +71,7 @@ export const Cart = () => {
                 </ul>
 
                 <div className="cart__footer">
-                    <button className="cart__order-btn"  onClick={handlerOpenOrder}  disabled={!items.lendth}> Оформить </button>
+                    <button className="cart__order-btn"  onClick={handlerOpenOrder}  disabled={!items.length}> Оформить </button>
                     <p className="cart__price cart__price--total"> 
                         {
                             items.reduce((acc, item) => {

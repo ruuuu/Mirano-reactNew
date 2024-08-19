@@ -20,7 +20,7 @@ const orderSlice = createSlice({
       state.isOpenModal = true;
     },
 
-    closeModal(state){   
+    closeModal(state){   // редьюсер
       state.isOpenModal = false;
     },
   }

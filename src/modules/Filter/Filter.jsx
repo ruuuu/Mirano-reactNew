@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import { FilterRadio } from './FilterRadio.jsx';
 import { useSelector } from 'react-redux';
 import { changePrice, changeType } from '../../redux/filtersSlice.js';
-// changeCategory
+import { changeCategory } from '../../redux/filtersSlice.js';
 
 
 
@@ -25,13 +25,18 @@ const filterTypes = [
  {/* Компонент  */}
 export const Filter = ({ setTitleGoods, filterRef }) => {
 
-    // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
-    const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
-
     const dispatch = useDispatch();    
 
     const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category}
     const categories = useSelector((state) => state.goods.categories);
+    console.log('categories ', categories)
+
+
+    // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
+    const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
+
+   
+
 
 
     const handleChoicesToggle = (index) => {
@@ -91,13 +96,13 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
 
 
 
-    // фильтр по смене типа { target }
+    // фильтр по смене type, { target }
     const handleTypeChange = (evt) => {             // либо сразу деструтктруировать объект evt: { target } и тогда  { value } = target
         //  { value } = target  
         const value = evt.target.value;  
         // const newFilters = { ...filters, type: value, minPrice: "", maxPrice: "" }        // у filters заменили значение свойства type type:value
         dispatch(changeType(value));                // редьюсер вызвали
-        setOpenChoice(-1);                          // закрываем  фильтры Цена и категории(Тип товара)
+        setOpenChoice(-1);                          // закрываем  фильтры Цена и Категории(Тип товара)
     };
         
     
@@ -137,13 +142,30 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
                     <fieldset className="filter__group filter__group--choices">
                         <Choices  buttonLabel="Цена"  isOpen={openChoice === 0}  onToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это пропсы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
                             <fieldset className="filter__price">
-                                <input className="filter__input-price" type="text" name="minPrice" placeholder="От" value={filters.minPrice}  onChange={ handlePriceChange }  />
+                                <input className="filter__input-price" type="text" name="minPrice" placeholder="От" value={filters.minPrice}  onChange={ handlePriceChange }  /> {      /* при вводе в поле сработает onChange  */}
                                 <input className="filter__input-price" type="text" name="maxPrice" placeholder="До"  value={filters.maxPrice}  onChange={ handlePriceChange }  />
                             </fieldset>
                         </Choices>
 
-                        
-                                  
+
+
+                        { categories.length ? 
+                           (
+                            <Choices  buttonLabel="Тип товара"  className="filter__choices--type"  isOpen={openChoice === 1}  onToggle={() => { handleChoicesToggle(1) }}>  {/* вызываем компонет и  передаем пропсы: buttonLabel  className isOpen handleToggle */}
+                                <ul className="filter__type-list">
+                                    <li className="filter__type-item">
+                                        <button className="filter__type-btn"  type="button"  onClick={() => { handleCategoryChange("") }}> все категории </button>
+                                    </li>
+                                    { categories.map((category) => (
+                                        <li className="filter__type-item" key={category}>
+                                            <button className="filter__type-btn"  type="button"  onClick={() => { handleCategoryChange(category) }}> {category} </button>
+                                        </li>
+                                      )
+                                    )}
+                                </ul>
+                            </Choices>
+                           ) : null
+                        }   
                     </fieldset>
                 </form>
             </div>
