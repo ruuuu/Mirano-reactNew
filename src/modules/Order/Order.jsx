@@ -1,6 +1,5 @@
 import './order.scss';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../redux/orderSlice.js';
 import { useEffect } from 'react';
 

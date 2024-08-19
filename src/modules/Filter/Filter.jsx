@@ -9,7 +9,7 @@ import { FilterRadio } from './FilterRadio.jsx';
 import { useSelector } from 'react-redux';
 import { changePrice, changeType } from '../../redux/filtersSlice.js';
 import { changeCategory } from '../../redux/filtersSlice.js';
-
+import classNames from 'classnames';
 
 
 
@@ -27,7 +27,7 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
 
     const dispatch = useDispatch();    
 
-    const filters = useSelector((state) => state.filters);  // {type, minPrice, maxPrice, category}
+    const filters = useSelector((state) => state.filters);  // { type, minPrice, maxPrice, category }
     const categories = useSelector((state) => state.goods.categories);
     console.log('categories ', categories)
 
@@ -147,8 +147,6 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
                             </fieldset>
                         </Choices>
 
-
-
                         { categories.length ? 
                            (
                             <Choices  buttonLabel="Тип товара"  className="filter__choices--type"  isOpen={openChoice === 1}  onToggle={() => { handleChoicesToggle(1) }}>  {/* вызываем компонет и  передаем пропсы: buttonLabel  className isOpen handleToggle */}
@@ -158,7 +156,7 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
                                     </li>
                                     { categories.map((category) => (
                                         <li className="filter__type-item" key={category}>
-                                            <button className="filter__type-btn"  type="button"  onClick={() => { handleCategoryChange(category) }}> {category} </button>
+                                            <button className={classNames("filter__type-btn", category === filters.category ? "filter__type-btn--active" : "")}  type="button"  onClick={() => { handleCategoryChange(category) }}> {category} </button>
                                         </li>
                                       )
                                     )}
