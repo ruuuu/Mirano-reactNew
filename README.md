@@ -2,7 +2,7 @@
 
 сервер выложен на хостинг render.com: 
 свагер:
-https://mirano-api-h7q7.onrender.com/api-docs/
+(https://mirano-api-cpax.onrender.com/api-docs/#)
 
 github.com/Quper24/mirano-api
 

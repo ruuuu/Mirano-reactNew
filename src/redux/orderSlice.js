@@ -5,7 +5,19 @@ import { createSlice } from "@reduxjs/toolkit";
 // объект хранит нач значения состояний:
 const initialState = {
   isOpenModal: false, // переменная состония, модалка формы заказа закрыта
-
+  orderId: '',      // id сделанного заказа
+  data: {           // данные полей заказа
+    buyerName:  '',
+    buyerPhone: '',
+    recipientName: '',
+    recipientPhone: '',
+    street: '',
+    house: '',
+    apartment: '',
+    paymentOnline: true,
+    deliveryDate: '',
+    deliveryTime:'',
+  },
 };
 
 
@@ -23,6 +35,31 @@ const orderSlice = createSlice({
     closeModal(state){   // редьюсер
       state.isOpenModal = false;
     },
+
+    clearOrder(state){ // редьюсер
+
+      state.data = {
+        buyerName:  '',
+        buyerPhone: '',
+        recipientName: '',
+        recipientPhone: '',
+        street: '',
+        house: '',
+        apartment: '',
+        paymentOnline: true,
+        deliveryDate: '',
+        deliveryTime:'',
+      }
+      
+    },
+
+    updateOrderData(state, action){  // редьюсер
+      state.data[action.payload.name] = action.payload.value;   // { name, value } значения котрые введем в  текстовое поле
+     // либо так:
+     // state.data = { ...state.data, ...action.payload }
+    },
+
+
   }
   
 
