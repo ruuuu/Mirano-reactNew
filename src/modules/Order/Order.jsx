@@ -2,6 +2,7 @@ import './order.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../redux/orderSlice.js';
 import { useEffect } from 'react';
+import { updateOrderData } from '../../redux/orderSlice.js';
 
 
 
@@ -40,6 +41,11 @@ export const Order = () => {
        } 
     };
 
+
+    const handleChange = (evt) => { // отправка данных заказа
+        const { name, value } = evt.target;                  // деструткирировали, <input name="" value="">
+        dispatch(updateOrderData({ [name]: value}));        // [name] значит что туда заносится значение  атрибута name
+    };
 
 
 

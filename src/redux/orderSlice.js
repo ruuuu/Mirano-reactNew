@@ -68,5 +68,5 @@ const orderSlice = createSlice({
 
 
 
-export const { openModal, closeModal } = orderSlice.actions;  // деструктрироваи в левой части
+export const { openModal, closeModal, clearOrder, updateOrderData } = orderSlice.actions;  // деструктрироваи в левой части
 export default orderSlice.reducer;
