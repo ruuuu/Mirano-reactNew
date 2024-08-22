@@ -16,12 +16,10 @@ export const Header = ({ setTitleGoods, scrollToFilter }) => {  // пропсы 
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины [{id, photoUrl, name, price, quantity}, {}]
     
 
-    console.log('itemsCart ', itemsCart)
-    //заводим перем состония:
-    const [ searchValue, setSearchValue ] = useState("");   
+    // console.log('itemsCart ', itemsCart)
+    // заводим перем состония:
+    const [ searchValue, setSearchValue ] = useState(""); // state этого компонента  
     
-
-   
 
 
     const handlerCartToggle = () => {

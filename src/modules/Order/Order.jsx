@@ -11,7 +11,7 @@ import { updateOrderData } from '../../redux/orderSlice.js';
 export const Order = () => {
 
     const dispatch = useDispatch();
-    const isOrderReady = false; // если еще заказа нет
+    
     const orderId = useSelector((state) => state.order.isOrder);
     const isOpenModal = useSelector((state) => state.order.isOpenModal);
     const orderData = useSelector((state) => state.order.data);
@@ -40,15 +40,15 @@ export const Order = () => {
     };
 
 
-    const handleChange = (evt) => { // отправка данных заказа
+    const handleChange = (evt) => { // ввод  данных  в поля формы заказа
         const { name, value } = evt.target;                  // деструткирировали, evt.target то <input name="" value="">
-        dispatch(updateOrderData({ [name]: value}));        // [name] значит что туда заносится значение  атрибута name
+        dispatch(updateOrderData({ [name]: value, }));        // [name] значит что туда заносится значение  атрибута name
     };
 
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        dispatch(sendOrder())
+        dispatch(sendOrder());
     };
 
 
@@ -60,7 +60,6 @@ export const Order = () => {
             }
         };
 
-        
         if(isOpenModal){
             document.addEventListener('keydown', handleEscape); // по нажатию на esc
         }

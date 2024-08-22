@@ -17,7 +17,7 @@ const initialState = {
 const filtersSlice = createSlice({
   name: 'filters', // нзв стейта сами придумали
   initialState,
-  reducers: {  
+  reducers: {    // редьюсеры вызываем(в .jsx) черз dispatch
     
     changeType(state, action){  // редьюсер, смена typeв фильтре: bouquets, toys, cards
       state.type = action.payload;  // bouquets/toys/cards (то что передаем в  запросе type=cards)

@@ -33,6 +33,7 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
 
 
     // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
+    //  state этого компонента :
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
 
    

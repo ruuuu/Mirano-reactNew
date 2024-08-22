@@ -71,7 +71,7 @@ const initialState = {
 const cartSlice = createSlice({
   name: 'cart', // нзв стейта сами придумали
   initialState,
-  reducers: {  // редьюсеры - это фукния которая меняет состояния
+  reducers: {  // редьюсеры - это фукния которая меняет состояния, редьюсеры вызываем(в .jsx) черз dispatch,то есть обрабаывает action 
     
     toggleCart(state, action){   // редьюсер(action), state =  { isOpen: false, }
       // action.payload -то что передали при вызове редьюсера

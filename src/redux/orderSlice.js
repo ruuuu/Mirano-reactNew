@@ -70,7 +70,7 @@ const initialState = {
 const orderSlice = createSlice({
   name: 'order', // нзв стейта сами придумали
   initialState,
-  reducers: {  // редьюсер - это фукния которая меняет состояние
+  reducers: {  // редьюсер - это фукния которая меняет состояние, редьюсеры вызываем(в .jsx) черз dispatch
     
     openModal(state){   // openModal-редьюсер(action), state =  { isOpenModal: false, }
       state.isOpenModal = true;
@@ -107,13 +107,11 @@ const orderSlice = createSlice({
 
     builder.addCase(sendOrder.pending, (state) => {
       state.status = 'loading';  // loading сами придумали, ждем ответа от сервера
-      state.categories = [];
+      state.orderId = '';
     })
     builder.addCase(sendOrder.fulfilled, (state, action) => {
       state.status = 'succeeded';  // succeeded сами придумали, сервер ответил
-      state.items = action.payload; // в action.payload будет то, что сервер отдаст 
-      
-      
+      state.orderId = action.payload; // в action.payload будет то, что сервер отдаст 
     })
     builder.addCase(sendOrder.rejected, (state, action) => {
       state.status = 'failed';  // ошибка при запросе сервера
