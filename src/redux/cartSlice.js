@@ -35,22 +35,31 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async() => { // по
 
 
 
-export const addItemToCart = createAsyncThunk('cart/addItemToCart', async({ productId, quantity }) => { // добавлени товара в Корзину
+export const addItemToCart = createAsyncThunk('cart/addItemToCart', async({ productId, quantity }, { getState,  rejectWithValue }) => { // добавлени товара в Корзину
   
-  const response = await fetch(`${API_URL}/api/cart/items`, {
-    method: 'POST', 
-    credentials: 'include', // куки вклбчены
-    headers: {
-      "Content-Type": 'application/json',
-    },
-    body: JSON.stringify({ productId, quantity }),
-  });
 
-  if(!response.ok){
-    throw new Error("не можем отпраить данные с сервера");
+  try{
+    const state = getState();
+    const cartItems = state.cart.items;
+  
+    const response = await fetch(`${API_URL}/api/cart/items`, {
+      method: 'POST', 
+      credentials: 'include', // куки вклбчены
+      headers: {
+        "Content-Type": 'application/json',
+      },
+      body: JSON.stringify({ productId, quantity }),
+    });
+
+    if(!response.ok){
+      throw new Error("не можем отпраить данные с сервера");
+    }
+
+    return await response.json();
   }
-
-  return await response.json();
+  catch(err){
+    return rejectWithValue(err.message);
+  }
 });
 
 
@@ -59,7 +68,7 @@ export const addItemToCart = createAsyncThunk('cart/addItemToCart', async({ prod
 // объект хранит нач значения состояний, нзв состояний(свойств) придумываем сами:
 const initialState = {
   isOpen: false,        // корзина закрыта
-  items: [], // список товаров корзины [{},{}]
+  items: [], // список товаров корзины [{},{}], котрые придут с сервера
   status: 'idle',
   accessKey: null,
   error: null

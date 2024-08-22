@@ -50,7 +50,7 @@ export const Cart = () => {
 
     return (
         <section className="cart cart--open" ref={cartRef}>             {/* ref значит скролл к этому элементу */}
-            <div class="cart__container">
+            <div className="cart__container">
                 <div className="cart__header">
                     <h3 className="cart__title"> Ваш заказ </h3>
                     <button className="cart__close" onClick={handlerCartClose}>

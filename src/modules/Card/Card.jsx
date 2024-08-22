@@ -1,7 +1,7 @@
 import classNames from 'classnames'; // npm пакет постаили: npm i classnames
 import './card.scss';
-import { useDispatch } from 'react-redux';
-import { addItemToCart } from '../../redux/cartSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemToCart, toggleCart } from '../../redux/cartSlice.js';
 import { API_URL } from '../../const.js';
 import { useState } from "react";
 
@@ -13,11 +13,15 @@ export const Card = ({ className,  id, photoUrl, name, dateDelivery, price }) =>
 
 
     const dispatch = useDispatch();
+    const isOpenCart = useSelector((state)=> state.cart.isOpen)
 
 
     const handlerAddToCart = () => {
        
-        dispatch(addItemToCart({ productId:id, quantity:1 })); // добаивли товар в корзину   id, photoUrl, name, price, dateDelivery
+        dispatch(addItemToCart({ productId:id })); // добаивли товар в корзину   id, photoUrl, name, price, dateDelivery
+        if(!isOpenCart){
+            toggleCart();
+        }
     };
 
 

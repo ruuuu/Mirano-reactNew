@@ -3,44 +3,51 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Отправка заказа
 //                                                                        thunkAPI 
-export const sendOrder = createAsyncThunk('order/sendOrder', async(_, { getState, dispatch }) => { // отправка заказа на сервер, деструктурировали thunkAPI
+export const sendOrder = createAsyncThunk('order/sendOrder', async(_, { getState, dispatch, rejectWithValue }) => { // отправка заказа на сервер, деструктурировали thunkAPI
   
-  const state = getState();
-  const orderData = {
-    "buyer": {
-      "name": state.order.data.buyerName,
-      "phone": state.order.data.buyerPhone,
-    },
-    "recipient": {
-      "name": state.order.data.recipientName,
-      "phone": state.order.data.recipientPhone,
-    },
-    "address": `${state.order.data.street},  ${state.order.data.house}, ${state.order.data.apartment}`,
-    "paymentOnline": state.order.data.paymentOnline,
-    "deliveryDate": state.order.data.deliveryDate,
-    "deliveryTime": state.order.data.deliveryTime,
-  };
+  try{
+    const state = getState();
+    const orderData = {
+      "buyer": {
+        "name": state.order.data.buyerName,
+        "phone": state.order.data.buyerPhone,
+      },
+      "recipient": {
+        "name": state.order.data.recipientName,
+        "phone": state.order.data.recipientPhone,
+      },
+      "address": `${state.order.data.street},  ${state.order.data.house}, ${state.order.data.apartment}`,
+      "paymentOnline": state.order.data.paymentOnline,
+      "deliveryDate": state.order.data.deliveryDate,
+      "deliveryTime": state.order.data.deliveryTime,
+    };
 
-  const response = await fetch(`${API_URL}/api/orders`, {
-    method: 'POST', 
-    credentials: 'include', // куки вклбчены
-    headers: {
-      "Content-Type": 'application/json',
-    },
-    body: JSON.stringify(orderData),
-  });
+    const response = await fetch(`${API_URL}/api/orders`, {
+      method: 'POST', 
+      credentials: 'include', // куки вклбчены
+      headers: {
+        "Content-Type": 'application/json',
+      },
 
-  if(!response.ok){
-    throw new Error("не можем отпраить заказ на сервер");
-  }
+      body: JSON.stringify(orderData),
+    });
 
-  if(response.ok){
+    if(!response.ok){
+      throw new Error("не можем отпраить заказ на сервер");
+    }
+
+    const data = await response.json();
+
+    
     dispatch(clearOrder());
     dispatch(toggleCart()); // закрыли корзину
     dispatch(fetchCart()); // получение  корзины
+    
+    return data;
   }
-
-  return await response.json();
+  catch(err){
+    return rejectWithValue(err.message);
+  }
 });
 
 
@@ -50,6 +57,8 @@ export const sendOrder = createAsyncThunk('order/sendOrder', async(_, { getState
 const initialState = {
   isOpenModal: false, // переменная состония, модалка формы заказа закрыта
   orderId: '',      // id сделанного заказа
+  status: 'idle',
+  error: null,
   data: {           // данные полей заказа
     buyerName:  '',
     buyerPhone: '',
@@ -111,11 +120,12 @@ const orderSlice = createSlice({
     })
     builder.addCase(sendOrder.fulfilled, (state, action) => {
       state.status = 'succeeded';  // succeeded сами придумали, сервер ответил
-      state.orderId = action.payload; // в action.payload будет то, что сервер отдаст 
+      state.orderId = action.payload; // в action.payload будет то, что сервер отдаст (orderId)
     })
     builder.addCase(sendOrder.rejected, (state, action) => {
-      state.status = 'failed';  // ошибка при запросе сервера
-      state.error = action.error.message;
+      state.status = 'error';  // ошибка при запросе сервера
+      state.error = error;
+      state.orderId = action.payload || action.error.message;
     });
   },  
   

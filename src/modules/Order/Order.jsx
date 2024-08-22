@@ -12,7 +12,7 @@ export const Order = () => {
 
     const dispatch = useDispatch();
     
-    const orderId = useSelector((state) => state.order.isOrder);
+    const orderId = useSelector((state) => state.order.orderId);
     const isOpenModal = useSelector((state) => state.order.isOpenModal);
     const orderData = useSelector((state) => state.order.data);
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины [{ id, photoUrl, name, price, quantity }, {}]
@@ -42,7 +42,7 @@ export const Order = () => {
 
     const handleChange = (evt) => { // ввод  данных  в поля формы заказа
         const { name, value } = evt.target;                  // деструткирировали, evt.target то <input name="" value="">
-        dispatch(updateOrderData({ [name]: value, }));        // [name] значит что туда заносится значение  атрибута name
+        dispatch(updateOrderData({ [name]: value, }),);        // [name] значит что туда заносится значение  атрибута name
     };
 
 
@@ -96,25 +96,25 @@ export const Order = () => {
                                 <fieldset className="order__fieldset">
                                         <legend className="order__legend"> Данные заказчика </legend>
                                         <div className="order__input-group">
-                                            <input className="order__input" type="text" name="buyerName" value={orderData.buyerName} placeholder="Имя" onChange={handleChange} />   {/* при вводе текста в поле, сработает onChange. */}
-                                            <input className="order__input" type="tel" name="buyerPhone" value={orderData.buyerPhone}  placeholder="Телефон" onChange={handleChange} />
+                                            <input className="order__input" type="text" name="buyerName" placeholder="Имя" value={orderData.buyerName}  onChange={handleChange} required />   {/* при вводе текста в поле, сработает onChange. */}
+                                            <input className="order__input" type="text" name="buyerPhone" value={orderData.buyerPhone}  placeholder="Телефон" onChange={handleChange} required />
                                         </div>
                                 </fieldset> 
 
                                 <fieldset className="order__fieldset">
                                         <legend className="order__legend"> Данные получателя </legend>
                                         <div className="order__input-group">
-                                            <input className="order__input" type="text" name="recipientName" value={orderData.recipientName} placeholder="Имя" onChange={handleChange} />
-                                            <input className="order__input" type="tel" name="recipientPhone" value={orderData.recipientPhone} placeholder="Телефон" onChange={handleChange}  />
+                                            <input className="order__input" type="text" name="recipientName" value={orderData.recipientName} placeholder="Имя" onChange={handleChange} required />
+                                            <input className="order__input" type="text" name="recipientPhone" value={orderData.recipientPhone} placeholder="Телефон" onChange={handleChange}  required />
                                         </div>
                                 </fieldset> 
 
                                 <fieldset className="order__fieldset">
                                     <legend className="order__legend"> Адрес </legend>
                                     <div className="order__input-group">
-                                        <input className="order__input" type="text" name="street" placeholder="Улица" onChange={handleChange} />
-                                        <input className="order__input order__input--min" type="number" name="house" value={orderData.house} placeholder="Дом" onChange={handleChange} />
-                                        <input className="order__input order__input--min" type="number" name="apartment" value={orderData.apartment} placeholder="Квартира" onChange={handleChange} />
+                                        <input className="order__input" type="text" name="street" placeholder="Улица" onChange={handleChange} required />
+                                        <input className="order__input order__input--min" type="number" name="house" value={orderData.house} placeholder="Дом" onChange={handleChange} required />
+                                        <input className="order__input order__input--min" type="number" name="apartment" value={orderData.apartment} placeholder="Квартира" onChange={handleChange} required />
                                     </div>
                                 </fieldset> 
 
@@ -126,11 +126,11 @@ export const Order = () => {
                                     </div> 
 
                                     <div className="order__delivery">
-                                        <label htmlFor="delivery"> Доставка завтра </label>  {/* вместо атрбиута for ставим  htmlFor  */}
-                                        <input type="hidden" name="deliveryDate" value={orderData.deliveryDate}  />  {/* скрытое поле:  */}
+                                        <label htmlFor="delivery"> Дата доставки </label>  {/* вместо атрбиута for ставим  htmlFor  */}
+                                        <input className="order__input" type="date" name="deliveryDate" value={orderData.deliveryDate}  onChange={handleChange} />  {/* скрытое поле:  */}
 
                                         <div className="order__select-wrapper">
-                                            <select className="order__select" name="deliveryTime" value={orderData.deliveryTime} id="delivery" onChange={handleChange}>   {/* id такое же что и у <label for="delivery">Доставка завтра</label>  */}
+                                            <select className="order__select" name="deliveryTime" value={orderData.deliveryTime} id="delivery" onChange={handleChange} required>   {/* id такое же что и у <label for="delivery">Доставка завтра</label>  */}
                                                 <option value="9-12">с 9:00 до 12:00</option>
                                                 <option value="12-15">с 12:00 до 15:00</option>
                                                 <option value="15-18">с 15:00 до 18:00</option>
