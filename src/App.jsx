@@ -17,8 +17,8 @@ export const App = () => {
     const dispatch = useDispatch();
 
     //заводим перем состония
-    const [ titleGoods, setTitleGoods ] = useState("Букеты");
-    const filterRef = useRef(null);                              // хук, нужен для скролла к элементу
+    const [ titleGoods, setTitleGoods ] = useState("");
+   
 
 
     useEffect(() => {
@@ -30,33 +30,23 @@ export const App = () => {
 
         initializeCart();
         
-    }, [ dispatch ]);
-
-
-
-    const scrollToFilter = () => {
-        // console.log('filterRef.current ', filterRef.current) // <section class="filter">
-        if(filterRef.current){
-            filterRef.current.scrollIntoView({ behavior: 'smooth' }); // скролл к filterRef <Filter />
-        } 
-    };
-   
-        
+    }, [ dispatch ]);        
    
    
+
 
 
     return (
     //пустые <> </>  это React.Fragment, можно не писать  его и отсавить пустыми <></>
     <>  {/* родитель */}
-        <Header setTitleGoods={setTitleGoods}  scrollToFilter={scrollToFilter}  />   {/*  вызов компонента Header,  впропс передали функцию setTitleGoods() */}
+        <Header  />   {/*  вызов компонента Header */}
 
         <main>
             <Hero />
 
-            <Filter setTitleGoods={setTitleGoods}  filterRef={filterRef} />   {/* filterRef-скролим к секции Filter, передем фукнцию setTitleGoods */}
+            <Filter setTitleGoods={setTitleGoods}  />   {/* filterRef-скролим к секции Filter, передем фукнцию setTitleGoods */}
 
-            <Goods title={titleGoods} /> 
+            <Goods title={titleGoods}  />     {/*   */}
 
             <Subscribe />
         </main> 

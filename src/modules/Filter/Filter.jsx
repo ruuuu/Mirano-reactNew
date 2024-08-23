@@ -23,21 +23,77 @@ const filterTypes = [
 
 
  {/* Компонент  */}
-export const Filter = ({ setTitleGoods, filterRef }) => {
+export const Filter = ({ setTitleGoods }) => {
 
     const dispatch = useDispatch();    
 
-    const filters = useSelector((state) => state.filters);  // { type, minPrice, maxPrice, category }
+    const filters = useSelector((state) => state.filters);  // { type, minPrice, maxPrice, category, search }
     const categories = useSelector((state) => state.goods.categories);
-    console.log('categories ', categories)
-
-
+    const goods = useSelector((state) => state.goods.items);
+    
     // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
     //  state этого компонента :
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
 
-   
+    const filterRef = useRef();   // для скрлла к элементу
+    const prevFiltersRef = useRef(filters);             // сохранили текущее состояние filters (даже если в useState(setFilters(filters)) значения filters поменяется, тек состояние не изменится )
+    
 
+    
+    const debounceFetchGoods = useRef(             // хук useRef, когда будет происходить перерендер, фукнуия не будет обновляться
+        
+        debounce((filters) => {
+            dispatch(fetchGoods(filters));
+        }, 1000),
+    ).current;
+ 
+
+    useEffect(() => {
+        filterRef.current.scrollIntoView({ behavior: 'smooth'});
+        console.log('товары помеляись сработал usefeecet')
+    }, [ goods ]); // при смене goods будет вызываться колбэк
+ 
+
+    useEffect(() => {
+
+        console.log('работает useEffect')
+        const prevMinPrice = prevFiltersRef.current.minPrice;
+        const prevMaxPrice = prevFiltersRef.current.maxPrice;
+        
+        const validFilters = getValidFilters(filters); // { type, minPrice, maxPrice, category, search }
+        console.log('опредеелилил validFilters ')
+        
+        if(!validFilters.type && !validFilters.search){ // если не выбрали тип и поисковое значение
+            console.log('зашли в return')
+            return; // выйдет из useEffect
+        }
+
+        if(prevMinPrice !== validFilters.minPrice || prevMaxPrice !== validFilters.maxPrice){ // при смене minPrice и maxPrice
+            debounceFetchGoods(validFilters);
+            // console.log('прайсы, вызывался debounceFetchGoods(filters) и filters ', filters)
+        }
+        else{ 
+            // если поменяли др параметры:
+            console.log('зашли в ветку else ')
+            dispatch(fetchGoods(validFilters));
+            console.log('типы, вызывался fetchGoods(validFilters) и validFilters ', validFilters );
+            
+            const type = filterTypes.find((item) => item.value === validFilters.type); // {value, title}
+            console.log('filterType ', type)
+            
+            if(type){
+                setTitleGoods(type.title); // меняем загловок после смены type
+            }
+
+            if(validFilters.search){
+                setTitleGoods('Резульат поиска');
+            }
+        }
+
+        prevFiltersRef.current = filters;  // обновляем текущий фильтр
+
+    }, [ dispatch, debounceFetchGoods, filters, setTitleGoods ]);  // если передаваемый массив пустой, то вызовется коллбэк 1 раз. Если передали еще что то(напрмиер  filters),  то при каждой смене filters будет вызываться коллбэк
+    
 
 
     const handleChoicesToggle = (index) => {
@@ -50,51 +106,6 @@ export const Filter = ({ setTitleGoods, filterRef }) => {
         dispatch(changeCategory(category))  // вызов редьюсера
         setOpenChoice(-1); // закрыавем список типов товаров(в ui)
     };
-
-
-
-    const prevFiltersRef = useRef(filters);             // сохранили текущее состояние filters (даже если в useState(setFilters(filters)) значения filters поменяется, тек состояние не изменится )
-    console.log('prevFiltersRef.current ', prevFiltersRef.current);    // {type: 'toys', minPrice: '', maxPrice: '', category: ''}
-    
-    
-
-
-    const debounceFetchGoods = useRef(             // хук useRef, когда будет происходить перерендер, фукнуия не будет обновляться
-        
-        debounce((filters) => {
-            dispatch(fetchGoods(filters));
-        }, 1000),
-    ).current;
- 
- 
-
-    useEffect(() => {
-
-        console.log('работает useEffect')
-        const prevFilters = prevFiltersRef.current;
-        const validFilters = getValidFilters(filters);
-        
-        if(!validFilters.type){ // типа нет
-            return; // выйдет из useEffect
-        }
-
-        if(prevFilters.type !== validFilters.type) {    // сравнение предыдущего и текущего фильтра(если сменили Тип)
-            dispatch(fetchGoods(validFilters));
-            console.log('типы, вызывался fetchGoods(validFilters) и validFilters ', validFilters );
-            const itemFilter = filterTypes.find((item) => item.value === validFilters.type); // {value, title}
-            setTitleGoods(itemFilter.title);
-        } 
-        else{
-            debounceFetchGoods(validFilters);
-            console.log('прайсы, вызывался debounceFetchGoods(filters) и filters ', filters)
-        } 
-
-        prevFiltersRef.current = filters;  // обновляем текущий фильтр
-
-    }, [ debounceFetchGoods, filters ]);  // если передаваемый массив пустой, то вызовется коллбэк 1 раз. Если передали еще что то(напрмиер  filters),  то при каждой смене filters будет вызываться коллбэк
-    
-
-
 
 
     // фильтр по смене type, { target }
