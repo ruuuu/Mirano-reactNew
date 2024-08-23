@@ -36,12 +36,18 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async() => { // по
 
 
 export const addItemToCart = createAsyncThunk('cart/addItemToCart', async({ productId, quantity }, { getState,  rejectWithValue }) => { // добавлени товара в Корзину
-  
-
+  // productId - id добавляемого в Корзину товара
   try{
     const state = getState();
-    const cartItems = state.cart.items;
+    const cartItems = state.cart.items; // [{},{},{}]
   
+    if(isNaN(parseInt(quantity))){ // приводим к числу
+      const cartItem = cartItems.find((cartItem) => cartItem.id === productId); 
+      quantity = cartItem ? cartItem.quantity + 1 : 1;
+    }
+
+    
+
     const response = await fetch(`${API_URL}/api/cart/items`, {
       method: 'POST', 
       credentials: 'include', // куки вклбчены
@@ -114,7 +120,7 @@ const cartSlice = createSlice({
     builder.addCase(registerCart.rejected, (state, action) => {
       state.status = 'failed';  // ошибка при запросе сервера
       state.accessKey = '';
-      state.error = action.error.message;
+      state.error = action.payload || action.error.message;
     });
 
 
@@ -127,7 +133,7 @@ const cartSlice = createSlice({
     })
     builder.addCase(fetchCart.rejected, (state, action) => {
       state.status = 'failed';  // ошибка при запросе сервера
-      state.error = action.error.message;
+      state.error = action.payload || action.error.message;
     });
 
 
@@ -140,7 +146,7 @@ const cartSlice = createSlice({
     })
     builder.addCase(addItemToCart.rejected, (state, action) => {
       state.status = 'failed';  // ошибка при запросе сервера
-      state.error = action.error.message;
+      state.error = action.payload || action.error.message;
     });
   }
   
