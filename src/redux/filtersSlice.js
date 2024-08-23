@@ -9,6 +9,7 @@ const initialState = {
     minPrice: "", 
     maxPrice: "",
     category: "",
+    search: "", // для поиска
 };
 
 
@@ -24,6 +25,7 @@ const filtersSlice = createSlice({
       state.minPrice = "";
       state.maxPrice = "";
       state.category = "";
+      state.search = "";
     },
 
     changePrice(state, action){   // редьюсер, смена minPrice и maxPrice в фильтре
@@ -36,14 +38,21 @@ const filtersSlice = createSlice({
     changeCategory(state, action){ // редьсюер, смена Категории товара
       console.log('action.payload in changeCategory ', action.payload)
       state.category = action.payload; //  action.payload это то, что выберем  из категриий
-    }
+    },
+
+    changeSearch(state, action){ // редьюсер
+      state.type = "";
+      state.minPrice = ""; 
+      state.maxPrice = "";
+      state.category = "";
+      state.search = action.payload; // то что ввдем в поле поиска
+    } 
   },
-  
 
 });
 
 
 
 //changeCategory
-export const { changeType, changePrice, changeCategory } = filtersSlice.actions;  // деструктрироваи в левой части
+export const { changeType, changePrice, changeCategory, changeSearch } = filtersSlice.actions;  // деструктрироваи в левой части
 export default filtersSlice.reducer;
