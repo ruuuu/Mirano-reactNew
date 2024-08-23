@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { API_URL } from "../../const.js";
 import { useState } from "react";
 import { useRef } from "react";
+import { Preload } from "../Preload/Preload.jsx";
 
 
 
@@ -26,7 +27,7 @@ export const Goods = ({ title }) => {
     //}
 
     if(goodsStatus === 'loading'){
-        content =  <p>Загрузка товаров</p>;
+        content =  <Preload />;
     }
 
     if(goodsStatus === 'succeeded' && goods.length){
@@ -51,10 +52,8 @@ export const Goods = ({ title }) => {
 
 
     
-
-
     return (
-        <section className="goods">              {/* скролл к этому элементу */}
+        <section className="goods" style={{position: goodsStatus ==='loading' ? 'relative' : ''}}>              {/* скролл к этому элементу */}
             <div className="container goods__container">
                 <div className="goods__box">
                     <h3 className="goods__title"> {title} </h3>

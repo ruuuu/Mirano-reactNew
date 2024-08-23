@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { toggleCart } from '../../redux/cartSlice.js';
 import { openModal } from '../../redux/orderSlice.js';
+import { Preload } from '../Preload/Preload.jsx';
 
 
 
@@ -19,6 +20,7 @@ export const Cart = () => {
     });
 
     const items = useSelector((state) => state.cart.items);  // список товаров Корзины [{ id, photoUrl, name, price, quantity }, {}]
+    const status = useSelector((state) => state.cart.status);
 
     const cartRef = useRef(null); // хук, нужен для скролла к элементу
 
@@ -63,12 +65,15 @@ export const Cart = () => {
 
                 <p className="cart__date-delivery"> сегодня&nbsp;в&nbsp;14:00 </p>
 
-                <ul className="cart__list">
-                    {   items.map((item) => (  // вернет массив <CartItem>
-                            <CartItem  key={item.id}  data={item} />
-                        ))
-                    }  
-                </ul>
+                {  status === 'loading' ?  <Preload />
+                    : 
+                    <ul className="cart__list">
+                        {   items.map((item) => (  // вернет массив <CartItem>
+                                <CartItem  key={item.id}  data={item} />
+                            ))
+                        }  
+                    </ul> 
+                }
 
                 <div className="cart__footer">
                     <button className="cart__order-btn"  onClick={handlerOpenOrder}  disabled={!items.length}> Оформить </button>

@@ -1,8 +1,9 @@
-@use '../variables' as *;
-@use '../media' as *;
+@use '@scss/variables' as *;
+@use '@scss/media' as *;
+
 
 .preload {
-  display: none;
+  display: flex;
   justify-content: center;
   position: absolute;
   padding-top: 200px;
