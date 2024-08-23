@@ -17,7 +17,7 @@ export const getValidFilters = (filters) => {     // filters= { type: "bouquets"
 
 
 // fn вызывается через каждые 5 сек
-export const debounce = (fn, msec) => {  // debounce функия высшго порядка,  функция обертка, msec -задержка
+export const debounce = (fn, msec = 300) => {  // debounce функия высшго порядка,  функция обертка, msec -задержка
 
   let lastCall = 0;
   let lastCallTimer = 0;
@@ -54,3 +54,37 @@ export const isNumber = (n) => {
 
   return (!isNaN(parseInt(n)) && isFinite(n));
 }
+
+
+export const adjustElementPosition = (element, count = 0) => { // element-элеент котрый будет смещаться
+  const rect = element.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;    // ширина видимой части
+
+  if(rect.left < 0){        // если элемент уехал за левы край
+    element.style.cssText = `
+      left: 0;
+      right: auto;
+      transform: translateX(0)
+    `;
+  }
+  else if(rect.right > viewportWidth){   // если элемент уехал за правый край
+    element.style.cssText = `
+      left: auto;
+      right: 0;
+      transform: translateX(0)
+    `;
+  }
+  else{
+    element.style.cssText = `
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%)
+  `;
+  }
+
+  const postRect = element.getBoundingClientRect();
+  if((postRect.left < 0 ||  postRect.right > viewportWidth) && count > 3){ // count > 3 значит вызвали фукнцию >3 раз
+    adjustElementPosition(element, ++count);
+  }
+
+};
