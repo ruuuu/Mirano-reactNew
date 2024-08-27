@@ -7,6 +7,7 @@ export const sendOrder = createAsyncThunk('order/sendOrder', async(_, { getState
   
   try{
     const state = getState();
+    console.log('state from orderSlice ', state)
     const orderData = {
       "buyer": {
         "name": state.order.data.buyerName,
@@ -29,8 +30,11 @@ export const sendOrder = createAsyncThunk('order/sendOrder', async(_, { getState
         "Content-Type": 'application/json',
       },
 
+      
       body: JSON.stringify(orderData),
     });
+
+    console.log('orderData после получения response ', orderData)
 
     if(!response.ok){
       throw new Error("не можем отпраить заказ на сервер");

@@ -26,7 +26,7 @@ export const Goods = ({ title }) => {
        // dispatch(fetchGoods())
     //}
 
-    if(goodsStatus === 'loading'){
+    if(goodsStatus === 'loading'){ // лоадер вставляем
         content =  <Preload />;
     }
 

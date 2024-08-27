@@ -3,7 +3,7 @@ import { API_URL } from '../../const.js';
 import { useDispatch } from 'react-redux';
 import { addItemToCart } from '../../redux/cartSlice.js';
 import { useState } from 'react';
-import { debounce } from '../../utils.js';
+import { debounce, isNumber } from '../../utils.js';
 
 
 
@@ -17,13 +17,18 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
 
 
     const debounceInputChange = debounce((newQuantity) => { // чтобы на каждую введенную цифру не уходил запрос на сервер
-        dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
+        
+        if(isNumber(newQuantity)){
+            dispatch(addItemToCart({ productId: id, quantity: newQuantity }));
+        }
+        
     }, 500);
+
 
 
     const handleInputChange = (evt) => { // ввели в поле значнеие
 
-        const newQuantity = parseInt(evt.target.value);
+        const newQuantity = parseInt(evt.target.value); // из строки в число
         setinputQuantity(newQuantity); // inputQuantity = newQuantity
         debounceInputChange(newQuantity);
     };
@@ -60,7 +65,7 @@ export const CartItem = ({ data: { id, photoUrl, name, price, quantity } }) => {
                 <button onClick={handleIncrement} > + </button>
             </div>
 
-            <p className="cart__price"> {price * inputQuantity}&nbsp;₽ </p>
+            <p className="cart__price"> {inputQuantity ? (price * inputQuantity) : 0}&nbsp;₽ </p>
         </li>
     )
 };

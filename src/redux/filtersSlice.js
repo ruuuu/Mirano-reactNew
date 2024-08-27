@@ -40,7 +40,7 @@ const filtersSlice = createSlice({
       state.category = action.payload; //  action.payload это то, что выберем  из категриий
     },
 
-    changeSearch(state, action){ // редьюсер
+    changeSearch(state, action){ // редьюсер, для поиска
       state.type = "";
       state.minPrice = ""; 
       state.maxPrice = "";

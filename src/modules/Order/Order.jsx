@@ -15,6 +15,7 @@ export const Order = () => {
     const orderId = useSelector((state) => state.order.orderId);
     const isOpenModal = useSelector((state) => state.order.isOpenModal);
     const orderData = useSelector((state) => state.order.data);
+    console.log('orderData in Order.jsx ', orderData)
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины [{ id, photoUrl, name, price, quantity }, {}]
 
 
@@ -41,6 +42,7 @@ export const Order = () => {
 
 
     const handleChange = (evt) => { // ввод  данных  в поля формы заказа
+        console.log('ввоу в поле ', evt.target)
         const { name, value } = evt.target;                  // деструткирировали, evt.target то <input name="" value="">
         dispatch(updateOrderData({ [name]: value, }),);        // [name] значит что туда заносится значение  атрибута name
     };
@@ -48,7 +50,7 @@ export const Order = () => {
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        dispatch(sendOrder());
+        dispatch(sendOrder()); // отправка заказ на сервер
     };
 
 
@@ -96,7 +98,7 @@ export const Order = () => {
                                 <fieldset className="order__fieldset">
                                         <legend className="order__legend"> Данные заказчика </legend>
                                         <div className="order__input-group">
-                                            <input className="order__input" type="text" name="buyerName" placeholder="Имя" value={orderData.buyerName}  onChange={handleChange} required />   {/* при вводе текста в поле, сработает onChange. */}
+                                            <input className="order__input" type="text" name="buyerName" placeholder="Имя" value={orderData.buyerName}  onСhange={handleChange} required />   {/* при вводе текста в поле, сработает onChange. */}
                                             <input className="order__input" type="text" name="buyerPhone" value={orderData.buyerPhone}  placeholder="Телефон" onChange={handleChange} required />
                                         </div>
                                 </fieldset> 
@@ -121,7 +123,7 @@ export const Order = () => {
                                 <fieldset className="order__fieldset"> 
                                     <div className="order__payment">
                                         <label className="order__label-radio">          {/* атрибут for не нужен тк поле внутри label: */}
-                                            <input className="order__radio" type="radio" name="paymentOnline" value={orderData.paymentOnline === "true"}  defaultChecked onChange={handleChange} /> Оплата онлайн  {/* вместо cheked=true пишем defaultChecked */}
+                                            <input className="order__radio" type="radio" name="paymentOnline" value={orderData.paymentOnline === "true"}  onChange={handleChange}  defaultChecked /> Оплата онлайн  {/* вместо cheked=true пишем defaultChecked */}
                                         </label>
                                     </div> 
 

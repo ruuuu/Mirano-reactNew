@@ -125,4 +125,9 @@
       opacity: 0.4;
     }
   }
+
+  &__preload {
+    position: relative;
+    flex-grow: 1; // чтобы товары корзины пр переренлере не скакали
+  }
 }

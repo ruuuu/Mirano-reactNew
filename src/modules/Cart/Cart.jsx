@@ -65,7 +65,10 @@ export const Cart = () => {
 
                 <p className="cart__date-delivery"> сегодня&nbsp;в&nbsp;14:00 </p>
 
-                {  status === 'loading' ?  <Preload />
+                {  status === 'loading' ? 
+                    <div className='cart__preload'>
+                        <Preload />
+                    </div> 
                     : 
                     <ul className="cart__list">
                         {   items.map((item) => (  // вернет массив <CartItem>

@@ -6,6 +6,7 @@ import { fetchGoods } from '../../redux/goodsSlice.js';
 import { useEffect, useState } from 'react';
 import { changeSearch, changeType } from '../../redux/filtersSlice.js';
 import { useRef } from 'react';
+import { debounce } from '../../utils.js';
 
 
 
@@ -19,12 +20,31 @@ export const Header = () => {  // пропсы передаем
     // console.log('itemsCart ', itemsCart)
     // заводим перем состония:
     const [ searchValue, setSearchValue ] = useState(""); // state этого компонента  
-    
+    const headerRef = useRef(null);     // <header>, чтобы при скролеле фиксировать header
+    //console.log('headerRef ', headerRef) // 
 
 
     const handlerCartToggle = () => {
         dispatch(toggleCart());
     };
+
+
+    useEffect(() => { // чтоы шапку зафикисровать, если просрколлили
+        document.body.style.paddingTop = `${headerRef.current.clientHeight}px`;
+
+        window.addEventListener('scroll', debounce(() => { // cсбытие скролла
+            
+            if(window.scrollY > 300){ // если проскроллии больше чем на 300px
+                //console.log('window.scrollY ', window.scrollY)
+                document.body.style.paddingTop = `${headerRef.current.clientHeight}px`; // высота <header>
+                headerRef.current.classList.add('header--fixed');
+            }   
+            else{
+                headerRef.current.classList.remove('header--fixed');
+                
+            }
+        }, 200));
+    });
 
 
     const handleSubmit = (evt) => { // отправка формы поиска
@@ -33,7 +53,7 @@ export const Header = () => {  // пропсы передаем
         // dispatch(changeType(""));               // вызов редьюсера
         if(searchValue.trim() !== ""){              // trim() убирате пробелы в конце и начале
             searchInputRef.current.style.cssText = ""; 
-            dispatch(changeSearch(searchValue));    // вызов редьюсера
+            dispatch(changeSearch(searchValue));    // вызов редьюсера changeSearch
             //dispatch(fetchGoods({ search: searchValue })); // вызов редьюсера,  запрос поиска 
             setSearchValue("");                     // очистка поля
         } 
@@ -56,7 +76,7 @@ export const Header = () => {  // пропсы передаем
 
 
     return (
-        <header className="header">   
+        <header className="header"  ref={headerRef}>   {/* ref чтобы при скролеле фиксировать header */}
             <div className="container header__container">
              {/* форма поиска:  */}
                 <form className="header__form"  onSubmit={handleSubmit}  action="#">     {/* при нажатии на отправку вызовется handleSubmit() */}        

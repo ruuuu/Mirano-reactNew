@@ -50,7 +50,7 @@ export const debounce = (fn, msec = 300) => {  // debounce функия высш
 
 
 
-export const isNumber = (n) => {
+export const isNumber = (n) => { // проверяет что переданное значение являеся числом
 
   return (!isNaN(parseInt(n)) && isFinite(n));
 }

@@ -35,7 +35,7 @@ export const Filter = ({ setTitleGoods }) => {
     //  state этого компонента :
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
 
-    const filterRef = useRef();   // для скрлла к элементу
+    const filterRef = useRef();   // <section className="filter>, для скрлла к элементу
     const prevFiltersRef = useRef(filters);             // сохранили текущее состояние filters (даже если в useState(setFilters(filters)) значения filters поменяется, тек состояние не изменится )
     
 
@@ -49,9 +49,15 @@ export const Filter = ({ setTitleGoods }) => {
  
 
     useEffect(() => {
-        filterRef.current.scrollIntoView({ behavior: 'smooth'});
-        console.log('товары помеляись сработал usefeecet')
-    }, [ goods ]); // при смене goods будет вызываться колбэк
+        console.log('filters ', filters);                   // {type: 'postcards', minPrice: '', maxPrice: '', category: '', search: ''}
+        console.log('prevFiltersRef ', prevFiltersRef);      // {type: 'toys', minPrice: '', maxPrice: '', category: '', search: ''}
+        console.log('prevFiltersRef.current ', prevFiltersRef.current);      // {type: 'toys', minPrice: '', maxPrice: '', category: '', search: ''}
+        
+        if(filters !== prevFiltersRef.current){ // если фильтры сменили то скроллим
+            filterRef.current.scrollIntoView({ behavior: 'smooth'});
+        }
+       
+    }, [ filters ]); // при смене filters будет вызываться колбэк
  
 
     useEffect(() => {
@@ -68,7 +74,7 @@ export const Filter = ({ setTitleGoods }) => {
             return; // выйдет из useEffect
         }
 
-        if(prevMinPrice !== validFilters.minPrice || prevMaxPrice !== validFilters.maxPrice){ // при смене minPrice и maxPrice
+        if(prevMinPrice !== filters.minPrice || prevMaxPrice !== filters.maxPrice){ // при смене minPrice и maxPrice
             debounceFetchGoods(validFilters);
             // console.log('прайсы, вызывался debounceFetchGoods(filters) и filters ', filters)
         }
