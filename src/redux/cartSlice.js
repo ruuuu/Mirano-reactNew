@@ -109,6 +109,7 @@ const cartSlice = createSlice({
     //   localStorage.setItem('cartItems', JSON.stringify(state.items));  // обновлем хранилище
     // },
   },
+  
   extraReducers: (builder) => {
     builder.addCase(registerCart.pending, (state) => {
       state.status = 'loading';  // loading сами придумали, ждем ответа от сервера

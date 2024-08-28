@@ -29,18 +29,20 @@ const filtersSlice = createSlice({
     },
 
     changePrice(state, action){   // редьюсер, смена minPrice и maxPrice в фильтре
-      //console.log('action.payload in changePrice');   // { name, value } значения котрые введем в  текстовго поле
+      // console.log('action.payload in changePrice');   // { name, value } значения котрые введем в  текстовго поле
       if(isNumber(action.payload.value) || action.payload.value === ""){ // чтобы не вводить буквы в поле
         state[action.payload.name] = action.payload.value;      // name- атрибут у поля <input> (то что передаем в  запросе minPrice=500, maxPrice=700)
       }
     },
 
     changeCategory(state, action){ // редьсюер, смена Категории товара
-      console.log('action.payload in changeCategory ', action.payload)
+      // console.log('action.payload in changeCategory ', action.payload)
+      // в payload попадет то, что передадим при вызове редьюсера
       state.category = action.payload; //  action.payload это то, что выберем  из категриий
     },
 
     changeSearch(state, action){ // редьюсер, для поиска
+      // в payload попадет то, что передадим при вызове редьюсера
       state.type = "";
       state.minPrice = ""; 
       state.maxPrice = "";
@@ -53,6 +55,6 @@ const filtersSlice = createSlice({
 
 
 
-//changeCategory
+
 export const { changeType, changePrice, changeCategory, changeSearch } = filtersSlice.actions;  // деструктрироваи в левой части
 export default filtersSlice.reducer;

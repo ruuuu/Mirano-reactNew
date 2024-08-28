@@ -14,11 +14,12 @@ export const fetchGoods = createAsyncThunk('goods/fetchGoods',  async (params, t
 
       return await response.json();
 
-    }catch(err){
+    }
+    catch(err){
 
       return thunkAPI.rejectWithValue(`${err.response.status} - ${err.response.statusText}`);
     }
-    }
+  }
 );
   
 
@@ -43,7 +44,7 @@ const goodsSlice = createSlice({
   reducers: {
 
   },
-  extraReducers: (builder) => {
+  extraReducers: (builder) => { // extrarEducers  используетсядля обработки запросов на сервер(асинхронное действеи)
 
     builder.addCase(fetchGoods.pending, (state) => {
       state.status = 'loading';  // loading сами придумали, ждем ответа от сервера

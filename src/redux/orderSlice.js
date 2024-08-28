@@ -71,7 +71,7 @@ const initialState = {
     street: '',
     house: '',
     apartment: '',
-    paymentOnline: true,
+    paymentOnline: 'true',
     deliveryDate: '',
     deliveryTime:'',
   },
@@ -84,8 +84,8 @@ const orderSlice = createSlice({
   name: 'order', // нзв стейта сами придумали
   initialState,
   reducers: {  // редьюсер - это фукния которая меняет состояние, редьюсеры вызываем(в .jsx) черз dispatch
-    
-    openModal(state){   // openModal-редьюсер(action), state =  { isOpenModal: false, }
+    // редьюсер принимает state  и возвращает новый стейт,   испльзвеься дя обработки action, котрые оперделены в этом же slice
+    openModal(state){   // редьюсер(action)
       state.isOpenModal = true;
     },
 
@@ -103,18 +103,20 @@ const orderSlice = createSlice({
         street: '',
         house: '',
         apartment: '',
-        paymentOnline: true,
+        paymentOnline: "true",
         deliveryDate: '',
         deliveryTime:'',
       }
     },
 
     updateOrderData(state, action){  // редьюсер
+      // в payload попадет то, что передадим при вызове редьюсера
       state.data[action.payload.name] = action.payload.value;   // { name, value } у поля,  value - значение котрые введем в поле <input name="" value="">
      // либо так:
      // state.data = { ...state.data, ...action.payload }
     },
   },
+
 
   extraReducers: (builder) => {
 
