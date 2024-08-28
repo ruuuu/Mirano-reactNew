@@ -103,7 +103,7 @@ const orderSlice = createSlice({
         street: '',
         house: '',
         apartment: '',
-        paymentOnline: "true",
+        paymentOnline: 'true',
         deliveryDate: '',
         deliveryTime:'',
       }

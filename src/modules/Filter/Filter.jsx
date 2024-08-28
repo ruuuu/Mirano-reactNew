@@ -29,15 +29,17 @@ export const Filter = ({ setTitleGoods }) => {
 
     const filters = useSelector((state) => state.filters);  // { type, minPrice, maxPrice, category, search }
     const categories = useSelector((state) => state.goods.categories);
-    const goods = useSelector((state) => state.goods.items);
+    
     
     // завели переменную состояния openChoice.  null(выпадашки закрыты) - нач значение состония openChoice:
-    //  state этого компонента :
+    // заводим state(переменную состояния) этого компонента:
     const [ openChoice, setOpenChoice ] = useState(null);  // хук(может принимать что угодно),  вернет массив(поле и  функцию), но мы деструктурируя возьмем только состояние isOpenChoice.  setIsOpenChoice это фукния, нзв ей дали сами. Эта фукнци меняет значение openChoice        
+
+
 
     const filterRef = useRef();   // <section className="filter>, для скрлла к элементу
     const prevFiltersRef = useRef(filters);             // сохранили текущее состояние filters (даже если в useState(setFilters(filters)) значения filters поменяется, тек состояние не изменится )
-    
+    const groupChoicesRef= useRef(null);  
 
     
     const debounceFetchGoods = useRef(             // хук useRef, когда будет происходить перерендер, фукнуия не будет обновляться
@@ -46,6 +48,19 @@ export const Filter = ({ setTitleGoods }) => {
             dispatch(fetchGoods(filters));
         }, 1000),
     ).current;
+
+
+
+    useEffect(() => {
+        document.addEventListener('click', (evt)=>{
+            const target = evt.target;
+
+
+        })
+        if(openChoice !== null && openChoice !== -1){ // если спсиок открыт
+            setOpenChoice(-1); // закрыли список
+        }
+    }, [ openChoice ]);
  
 
     useEffect(() => {
@@ -110,7 +125,7 @@ export const Filter = ({ setTitleGoods }) => {
 
     const handleCategoryChange = (category) => {
         dispatch(changeCategory(category))  // вызов редьюсера
-        setOpenChoice(-1); // закрыавем список типов товаров(в ui)
+        setOpenChoice(-1); // закрыавем список типов товаров(Категории)
     };
 
 
@@ -157,7 +172,7 @@ export const Filter = ({ setTitleGoods }) => {
                         }
                     </fieldset>
 
-                    <fieldset className="filter__group filter__group--choices">
+                    <fieldset className="filter__group filter__group--choices"  ref={groupChoicesRef}>
                         <Choices  buttonLabel="Цена"  isOpen={openChoice === 0}  onToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это пропсы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
                             <fieldset className="filter__price">
                                 <input className="filter__input-price" type="text" name="minPrice" placeholder="От" value={filters.minPrice}  onChange={ handlePriceChange }  /> {      /* при вводе в поле сработает onChange  */}

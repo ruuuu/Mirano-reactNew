@@ -41,7 +41,7 @@ export const Choices = ( { children, buttonLabel, className, isOpen, onToggle } 
      
         <button className="choices__btn" type="button"  onClick={onToggle}> { buttonLabel } </button> {/*  без type="button" будет работать как type="submit", будет перезгрузка станицы  */}
                   
-        { isOpen &&  <div className="choices__box" ref={choiceRef}>  { children }  </div> }   {/*  children - внутренняя разметка, choiceRef добавили чтоб смещать  этот Фильтр Цена */}
+        { isOpen &&  <div className="choices__box"  ref={choiceRef}>  { children }  </div> }   {/*  children - внутренняя разметка, choiceRef добавили чтоб смещать  этот Фильтр Цена */}
       </div>
     )
 

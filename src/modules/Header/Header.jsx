@@ -15,14 +15,15 @@ export const Header = () => {  // пропсы передаем
 
     const dispatch = useDispatch(); // сообщает что нужно произвести опр действия
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины [{id, photoUrl, name, price, quantity}, {}]
-    const searchInputRef = useRef(null);
-
-    // console.log('itemsCart ', itemsCart)
+    
     // заводим перем состония:
     const [ searchValue, setSearchValue ] = useState(""); // state этого компонента  
-    const headerRef = useRef(null);     // <header>, чтобы при скролеле фиксировать header
-    //console.log('headerRef ', headerRef) // 
 
+    const searchInputRef = useRef(null); 
+    const headerRef = useRef(null);     // <header>, чтобы при скролеле фиксировать header
+  
+   
+    
 
     const handlerCartToggle = () => {
         dispatch(toggleCart());
@@ -41,7 +42,6 @@ export const Header = () => {  // пропсы передаем
             }   
             else{
                 headerRef.current.classList.remove('header--fixed');
-                
             }
         }, 200));
     });
@@ -76,7 +76,7 @@ export const Header = () => {  // пропсы передаем
 
 
     return (
-        <header className="header"  ref={headerRef}>   {/* ref чтобы при скролеле фиксировать header */}
+        <header className="header"  ref={headerRef}>   {/* ref чтобы при скролеле фиксировать <header> */}
             <div className="container header__container">
              {/* форма поиска:  */}
                 <form className="header__form"  onSubmit={handleSubmit}  action="#">     {/* при нажатии на отправку вызовется handleSubmit() */}        
@@ -97,7 +97,7 @@ export const Header = () => {  // пропсы передаем
                     }, 0) }
                     {/* или так:
                     {
-                        itemsCart.reduce((acc, item)=>  acc+item.quantity, 0)
+                        itemsCart.reduce((acc, item) => acc+item.quantity, 0)
                     } */}
                 </button>
             </div>

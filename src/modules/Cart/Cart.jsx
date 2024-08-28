@@ -22,7 +22,7 @@ export const Cart = () => {
     const items = useSelector((state) => state.cart.items);  // список товаров Корзины [{ id, photoUrl, name, price, quantity }, {}]
     const status = useSelector((state) => state.cart.status);
 
-    const cartRef = useRef(null); // хук, нужен для скролла к элементу
+    const cartRef = useRef(null); // хук, нужен для скролла к элементу <section className="cart cart--open>
 
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export const Cart = () => {
 
 
     return (
-        <section className="cart cart--open" ref={cartRef}>             {/* ref значит скролл к этому элементу */}
+        <section className="cart cart--open" ref={cartRef}>             {/* ref нужен чтобы  скроллить к этому элементу */}
             <div className="cart__container">
                 <div className="cart__header">
                     <h3 className="cart__title"> Ваш заказ </h3>
