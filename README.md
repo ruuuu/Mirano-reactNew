@@ -1,8 +1,10 @@
 # React + Vite
 
 сервер выложен на хостинг render.com: 
-свагер:
-(https://mirano-api-cpax.onrender.com/api-docs/#)
+https://mirano-api-f6ap.onrender.com
+
+
+сам сервис: https://mirano-reactnew.onrender.com/
 
 github.com/Quper24/mirano-api
 
