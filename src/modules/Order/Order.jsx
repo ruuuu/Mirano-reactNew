@@ -13,12 +13,10 @@ export const Order = () => {
     const dispatch = useDispatch();
     
     const orderId = useSelector((state) => state.order.orderId);
-    const isOpenModal = useSelector((state) => state.order.isOpenModal);
     const orderData = useSelector((state) => state.order.data);
     console.log('orderData in Order.jsx ', orderData)
     const itemsCart = useSelector((state) => state.cart.items);  // список товаров Корзины [{ id, photoUrl, name, price, quantity }, {}]
-
-
+    const isOpenModal = useSelector((state) => state.order.isOpenModal);
     // либо так написать дестуктрируя:
     // const { isOpenModal } = useSelector((state) => { 
     //     return state.order;
@@ -26,7 +24,6 @@ export const Order = () => {
 
     
 
-    
     // const handlerCloseOrder = () => {
     //     dispatch(closeModal());
     // };
@@ -69,7 +66,7 @@ export const Order = () => {
         }
 
         return () => {
-            document.removeEventListener('keydown', handleEscape);
+            document.removeEventListener('keydown', handleEscape); // снимаем обработчик
         };
     }, [ isOpenModal, handlerCloseOrder]);
 

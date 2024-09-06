@@ -141,8 +141,6 @@ export const Filter = ({ setTitleGoods }) => {
         
     
 
-
-
     // филтр по смене цены   { target }
     const handlePriceChange = (evt) => {         // либо сразу деструтктруировать объект evt: { target } и тогда  { value, name } = target
         // { value, name } = target
@@ -156,8 +154,6 @@ export const Filter = ({ setTitleGoods }) => {
     };
 
 
-
-   
 
 
     return (
@@ -176,7 +172,7 @@ export const Filter = ({ setTitleGoods }) => {
                     <fieldset className="filter__group filter__group--choices">
                         <Choices  buttonLabel="Цена"  isOpen={openChoice === 0}  onToggle={() => { handleChoicesToggle(0) }}>   {/* isOpen и handleToggle это пропсы передаем в компопнент(нзв пропсам заадем какие угодно)  */}           {/* вызываем компонет Choices и  передаем пропс buttonLabel  */}
                             <fieldset className="filter__price">
-                                <input className="filter__input-price" type="text" name="minPrice" placeholder="От" value={filters.minPrice}  onChange={ handlePriceChange }  /> {      /* при вводе в поле сработает onChange  */}
+                                <input className="filter__input-price" type="text" name="minPrice" placeholder="От" value={filters.minPrice}  onChange={ handlePriceChange }  />      {/* при вводе в поле сработает onChange  */}
                                 <input className="filter__input-price" type="text" name="maxPrice" placeholder="До"  value={filters.maxPrice}  onChange={ handlePriceChange }  />
                             </fieldset>
                         </Choices>

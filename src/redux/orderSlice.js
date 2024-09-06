@@ -118,22 +118,22 @@ const orderSlice = createSlice({
   },
 
 
-  // extraReducers: (builder) => {
+  extraReducers: (builder) => {
 
-  //   builder.addCase(sendOrder.pending, (state) => {
-  //     state.status = 'loading';  // loading сами придумали, ждем ответа от сервера
-  //     state.orderId = '';
-  //   })
-  //   builder.addCase(sendOrder.fulfilled, (state, action) => {
-  //     state.status = 'succeeded';  // succeeded сами придумали, сервер ответил
-  //     state.orderId = action.payload; // в action.payload будет то, что сервер отдаст (orderId)
-  //   })
-  //   builder.addCase(sendOrder.rejected, (state, action) => {
-  //     state.status = 'error';  // ошибка при запросе сервера
-  //     state.error = error;
-  //     state.orderId = action.payload || action.error.message;
-  //   });
-  // },  
+    builder.addCase(sendOrder.pending, (state) => {
+      state.status = 'loading';  // loading сами придумали, ждем ответа от сервера
+      state.orderId = '';
+    })
+    builder.addCase(sendOrder.fulfilled, (state, action) => {
+      state.status = 'succeeded';  // succeeded сами придумали, сервер ответил
+      state.orderId = action.payload; // в action.payload будет то, что сервер отдаст (orderId)
+    })
+    builder.addCase(sendOrder.rejected, (state, action) => {
+      state.status = 'error';  // ошибка при запросе сервера
+      state.error = error;
+      state.orderId = action.payload || action.error.message;
+    });
+  },  
   
 
 });
