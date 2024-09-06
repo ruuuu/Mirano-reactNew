@@ -42,9 +42,11 @@ export const Order = () => {
 
 
     const handleChange = (evt) => { // ввод  данных  в поля формы заказа
-        console.log('ввоу в поле ', evt.target)
-        const { name, value } = evt.target;                  // деструткирировали, evt.target то <input name="" value="">
-        dispatch(updateOrderData({ [name]: value, }),);        // [name] значит что туда заносится значение  атрибута name
+        console.log('ввожу в поле ', evt.target)
+        const { name, value } = evt.target;                  // деструткирировали, evt.target это <input name="" value="">
+        console.log('name, value ', name, value)
+        dispatch(updateOrderData({ [name]: value, }),
+        );        // [name] значит что туда заносится значение  атрибута name
     };
 
 
@@ -98,7 +100,7 @@ export const Order = () => {
                                 <fieldset className="order__fieldset">
                                         <legend className="order__legend"> Данные заказчика </legend>
                                         <div className="order__input-group">
-                                            <input className="order__input" type="text" name="buyerName" placeholder="Имя" value={orderData.buyerName}  onСhange={handleChange} required />   {/* при вводе текста в поле, сработает onChange. */}
+                                            <input className="order__input" type="text" name="buyerName" placeholder="Имя" value={orderData.buyerName}  onChange={handleChange} required />   {/* при вводе текста в поле, сработает onChange. */}
                                             <input className="order__input" type="text" name="buyerPhone" value={orderData.buyerPhone}  placeholder="Телефон" onChange={handleChange} required />
                                         </div>
                                 </fieldset> 

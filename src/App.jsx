@@ -16,7 +16,7 @@ export const App = () => {
 
     const dispatch = useDispatch();
 
-    //заводим перем состония
+    //заводим перем состония этого компонента
     const [ titleGoods, setTitleGoods ] = useState("");
    
 
@@ -38,23 +38,23 @@ export const App = () => {
 
     return (
     //пустые <> </>  это React.Fragment, можно не писать  его и отсавить пустыми <></>
-    <>  {/* родитель */}
-        <Header  />   {/*  вызов компонента Header */}
+        <>  {/* родитель */}
+            <Header  />   {/*  вызов компонента Header */}
 
-        <main>
-            <Hero />
+            <main>
+                <Hero />
 
-            <Filter setTitleGoods={setTitleGoods}  />   {/* filterRef-скролим к секции Filter, передем фукнцию setTitleGoods */}
+                <Filter setTitleGoods={setTitleGoods}  />   {/* filterRef-скролим к секции Filter, передем фукнцию setTitleGoods */}
 
-            <Goods title={titleGoods}  />     {/*   */}
+                <Goods title={titleGoods}  />     {/*   */}
 
-            <Subscribe />
-        </main> 
+                <Subscribe />
+            </main> 
 
-        <Footer />   
+            <Footer />   
 
-        <Order />
-    </>
+            <Order />
+        </>
     )
 }
 
