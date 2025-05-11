@@ -30,7 +30,6 @@ export const sendOrder = createAsyncThunk('order/sendOrder', async(_, { getState
         "Content-Type": 'application/json',
       },
 
-      
       body: JSON.stringify(orderData),
     });
 
@@ -63,7 +62,7 @@ const initialState = {
   orderId: '',      // id сделанного заказа
   status: 'idle',
   error: null,
-  data: {           // данные полей заказа
+  data: {           // данные полей заказа()
     buyerName:  '',
     buyerPhone: '',
     recipientName: '',
@@ -94,7 +93,6 @@ const orderSlice = createSlice({
     },
 
     clearOrder(state){ // редьюсер, после отправки заказа очищаем форму
-
       state.data = {
         buyerName:  '', // эти значения свйства взяли у name текстовых полей
         buyerPhone: '',
@@ -111,10 +109,10 @@ const orderSlice = createSlice({
 
     updateOrderData(state, action){  // редьюсер
       // в payload попадет то, что передадим при вызове редьюсера
-      state.data[action.payload.name] = action.payload.value;   // { name, value } у поля,  value - значение котрые введем в поле <input name="" value="">
+      //state.data[action.payload.name] = action.payload.value;   // { name, value } у поля,  value - значение котрые введем в поле <input name="" value="">
      // либо так:
-     // state.data = { ...state.data, ...action.payload }
-    },
+     state.data = { ...state.data, ...action.payload }
+    }
   },
 
 

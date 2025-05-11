@@ -6,7 +6,7 @@ import { debounce, adjustElementPosition } from '../../utils.js';
 
 
 
-// выпадающий список
+// выпадающий список Цена (От / До)
 //                                  созданный стейт(isOpen) можно передать ввиде props
 export const Choices = ( { children, buttonLabel, className, isOpen, onToggle } ) => {  //  children, buttonLabel, className, isOpen, onToggle это пропсы
   
@@ -35,6 +35,7 @@ export const Choices = ( { children, buttonLabel, className, isOpen, onToggle } 
     };
   }, [ isOpen ]); // при каждои изменении isOpen, будет вызываться коллбэк
 
+  
 
   return (
       <div className={classNames("choices", className)}>

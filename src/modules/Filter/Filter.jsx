@@ -123,7 +123,7 @@ export const Filter = ({ setTitleGoods }) => {
         setOpenChoice(openChoice === index ? null : index);      // setOpenChoice принимает функцию
     };
 
-
+    // фильтр по смене category
     const handleCategoryChange = (category) => {
         dispatch(changeCategory(category))  // вызов редьюсера
         setOpenChoice(-1); // закрыавем список типов товаров(Категории)

@@ -42,8 +42,7 @@ export const Order = () => {
         console.log('ввожу в поле ', evt.target)
         const { name, value } = evt.target;                  // деструткирировали, evt.target это <input name="" value="">
         console.log('name, value ', name, value)
-        dispatch(updateOrderData({ [name]: value, }),
-        );        // [name] значит что туда заносится значение  атрибута name
+        dispatch(updateOrderData({ [name]: value }));        // [name] значит что туда заносится значение  атрибута name
     };
 
 
@@ -84,13 +83,13 @@ export const Order = () => {
             <div className="order__wrapper">   {/* сама модалка формы заказа */}  
                 { orderId ? 
                     (
-                        <>
+                        <> {/* React fragment */}  
                             <h2 className="order__title"> Заказ офорлмен </h2> 
                             <p className="order__id"> Номер ваего заказа: {orderId} </p>  
                         </>
                     ) : 
                     (
-                        <>
+                        <> {/* React fragment */}  
                             <h2 className="order__title"> Оформить заказ </h2> 
 
                             <form className="order__form" id="order" onSubmit={handleSubmit}>       {/* id= нужен для связки фрмы и кноп Отправить: */}
@@ -114,15 +113,15 @@ export const Order = () => {
                                     <legend className="order__legend"> Адрес </legend>
                                     <div className="order__input-group">
                                         <input className="order__input" type="text" name="street" placeholder="Улица" onChange={handleChange} required />
-                                        <input className="order__input order__input--min" type="number" name="house" value={orderData.house} placeholder="Дом" onChange={handleChange} required />
-                                        <input className="order__input order__input--min" type="number" name="apartment" value={orderData.apartment} placeholder="Квартира" onChange={handleChange} required />
+                                        <input className="order__input order__input--min" type="text" name="house" value={orderData.house} placeholder="Дом" onChange={handleChange} required />
+                                        <input className="order__input order__input--min" type="text" name="apartment" value={orderData.apartment} placeholder="Квартира" onChange={handleChange} required />
                                     </div>
                                 </fieldset> 
 
                                 <fieldset className="order__fieldset"> 
                                     <div className="order__payment">
-                                        <label className="order__label-radio">          {/* атрибут for не нужен тк поле внутри label: */}
-                                            <input className="order__radio" type="radio" name="paymentOnline" value={orderData.paymentOnline === "true"}  onChange={handleChange}  defaultChecked /> Оплата онлайн  {/* вместо cheked=true пишем defaultChecked */}
+                                        <label className="order__label-radio">          {/* атрибут for не нужен тк поле внутри label:    value={orderData.paymentOnline === "true"}  */}
+                                            <input className="order__radio" type="radio" name="paymentOnline" value="true"   onChange={handleChange}  checked={orderData.paymentOnline === "true"} /> Оплата онлайн  {/* вместо cheked=true пишем defaultChecked */}
                                         </label>
                                     </div> 
 
